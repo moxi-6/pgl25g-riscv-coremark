@@ -1,5 +1,9 @@
 # RV32I 三阶段流水处理器 · 紫光同创 FPGA 平台
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![CoreMark 23.78 @50MHz](https://img.shields.io/badge/CoreMark-23.78%20%4050MHz-brightgreen.svg)](#)
+[![RTL: SystemVerilog](https://img.shields.io/badge/RTL-SystemVerilog-8a2be2.svg)](#系统架构)
+
 > 2026 全国大学生嵌入式芯片与系统设计竞赛 — FPGA 创新设计赛道 · 紫光同创选题一
 > 开发板：正点原子 ATK-L50（紫光同创 **PGL25G**-6 / MBG324，实器件 JTAG ID `0x00511899`）
 
