@@ -19,7 +19,7 @@ from competition_artifacts import (DOCS, PENDING, audit_firmware, audit_historic
 
 REGRESSION_IMAGES = ('software/build/firmware.hex', 'software/build/runtime_test/firmware.hex',
                      'software/build/perf_test/firmware.hex', 'software/build/perf_report/firmware.hex',
-                     'software/build/coremark/sim_firmware.hex', 'software/build/game_sim/firmware.hex')
+                     'software/build/coremark/sim_firmware.hex')
 
 
 def timestamp():

@@ -1,4 +1,4 @@
-﻿param(
+param(
     [string]$Port,
     [ValidateRange(30,600)][int]$TimeoutSeconds = 150,
     [string]$OutputDir
@@ -32,11 +32,11 @@ Write-Host '步骤 2/3：下载 game 位流到 SRAM（Shutdown 模式）。' -Fo
 & (Join-Path $PSScriptRoot 'program_sram.ps1') -Target cpu -FirmwareApp game | Select-Object -Last 2
 
 Write-Host ''
-Write-Host '步骤 3/3：固件已经在跑，现在轮到你操作：' -ForegroundColor Yellow
+Write-Host '步骤 3/3：固件运行后按提示操作：' -ForegroundColor Yellow
 Write-Host '  - 等 LED0..LED3 中某一颗亮起；' -ForegroundColor Yellow
 Write-Host '  - 立刻按下编号相同的 KEY（LED2 亮就按 KEY2），越慢分数越差；' -ForegroundColor Yellow
 Write-Host '  - 10 轮后串口会打印 Match: x/10 hit、平均与最好反应时间。' -ForegroundColor Yellow
-Write-Host '  - 想从第 1 轮开始：现在按一下板上 RESET（10 秒内），采集不会中断。' -ForegroundColor Yellow
+Write-Host '  - 从第 1 轮开始：采集开始后 10 秒内按板上 RESET，采集不会中断。' -ForegroundColor Yellow
 Write-Host ''
 
 $Capture.WaitForExit()

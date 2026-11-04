@@ -28,7 +28,7 @@ CFLAGS := -march=$(MARCH) -mabi=ilp32 $(RELAX_FLAG) -msmall-data-limit=0 $(OPT) 
 # cannot prove is initialised, which trips -Werror=maybe-uninitialized. It is
 # unmodified upstream source, so the warning is relaxed for that translation
 # unit alone; the exemption is keyed to the exact filename so it cannot silently
-# cover a new warning in our own code.
+# cover a new warning in project code.
 ifneq (,$(findstring coremark/core_list_join.c,$(EXTRA_SRCS)))
 CFLAGS += -Wno-error=maybe-uninitialized
 endif

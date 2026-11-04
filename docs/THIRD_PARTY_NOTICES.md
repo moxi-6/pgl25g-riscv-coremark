@@ -6,7 +6,7 @@ The repository MIT license applies to original project contributions. It does no
 
 `software/coremark/` contains EEMBC benchmark sources and a local bare-metal port. Preserve the copyright and attribution headers in the upstream algorithm files. CoreMark and EEMBC are marks of their respective owners.
 
-The checked-in algorithm files carry the 2009 EEMBC/CoreMark release headers. The checked-in `software/coremark/LICENSE.md` is titled **COREMARK® ACCEPTABLE USE AGREEMENT**. It contains benchmark/trademark conditions; it is not the text of the Apache License 2.0. A license statement for a newer upstream version must not be silently applied to this source snapshot. The exact upstream release provenance and corresponding software redistribution grant must be checked before publicly redistributing these legacy files. The local MIT license does not resolve that provenance requirement.
+The checked-in algorithm files carry the 2009 EEMBC/CoreMark release headers. Their accompanying `software/coremark/LICENSE.md` is titled **COREMARK® ACCEPTABLE USE AGREEMENT** and contains the benchmark/trademark conditions. This repository preserves that upstream text and does not relicense those files under MIT or assert an Apache-2.0 license for this source snapshot.
 
 Source reference: <https://github.com/eembc/coremark>. Follow the license and reporting rules belonging to the exact upstream revision being used. Benchmark algorithms and expected CRCs remain identifiable separately from the board port. Single-iteration simulation projections are not official scores meeting the minimum execution-time rule.
 

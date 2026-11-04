@@ -8,6 +8,7 @@ from coremark_score import evaluate
 SOURCE_DIRS = ('rtl', 'sim', 'scripts', 'constraints', 'boards', 'software', 'windows_scripts')
 DOCS = ('参赛作品说明书.md', '性能分析报告.md', '提交材料清单.md',
         '演示操作指南.md', 'THIRD_PARTY_NOTICES.md')
+PUBLIC_DOC_DIRS = ('docs/submission', 'docs/images/physical', 'docs/evidence')
 PENDING = ['Current dual-issue CPU hardware ILA capture (only the early baseline ILA is archived)',
            'Physical demo video recording',
            'Final competition submission-format check']
@@ -46,6 +47,11 @@ def source_snapshot(root, include_docs=False):
         # licensing requests and personnel research are not release inputs.
         files.extend(root / 'docs' / name for name in DOCS)
         files.extend((root / 'README.md', root / 'LICENSE'))
+        for folder in PUBLIC_DOC_DIRS:
+            for path in (root / folder).rglob('*'):
+                if path.is_file() and path.suffix != '.pyc' and '__pycache__' not in path.parts:
+                    require(path.resolve().is_relative_to(root.resolve()), f'External public document link: {path}')
+                    files.append(path)
     return {path.relative_to(root).as_posix(): sha(path) for path in sorted(set(files))}
 
 

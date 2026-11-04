@@ -1,19 +1,23 @@
 # PDS 约束接入说明
 
-2026-10-19 更新：ATK-L50 制作入口见 `../boards/atk_l50/README.md`。已从现有官方 FDC 提取 `atk_l50_reference.fdc`，匹配新顶层 `atk_l50_bringup` / `atk_l50_top` 的端口。该文件是待核验参考约束：时钟/复位 IO 标准与指南不同，LED Bank 电源也需按核心板版本确认。以下旧说明仅供其他板型参考。
+ATK-L50（PGL25G-6/MBG324）的引脚与时序约束按目标分类。发布构建使用：
 
-其他板型不能使用 ATK-L50 引脚：RK3568_MES2L100H、盘古 676、盘古 50 和 SoPC 板卡的器件与管脚不同。
+| 配置 | 约束文件 | 说明 |
+|---|---|---|
+| CoreMark 性能镜像 | `atk_l50_cpu_vcc33.fdc` | 50 MHz 输入二分频产生 25 MHz CPU，UART 与按键 |
+| 触屏扫雷镜像 | `atk_l50_mine.fdc` | 50 MHz 系统时钟、25 MHz 像素时钟，LCD 与 GT9147 |
 
-上板时执行以下步骤：
+其余约束文件用于接口诊断与对比测试，不参与上述两个发布目标的构建。约束文件与 `boards/atk_l50/` 下对应的 `.f` 顶层清单配合使用，由 `scripts/run_pds.ps1` 组装 PDS 工程。
 
-1. 从开发板配套资料取得官方 PDS 示例工程和原理图；
-2. 复制示例中的系统时钟、复位、LED 和 UART TX 约束；
-3. 将约束端口名改为 `sys_clk_i`、`reset_n_i`、`led_o[7:0]`、`uart_tx_o`；
-4. 确认每个 Bank 的 IO 标准和电压；
-5. 为 `sys_clk_i` 建立主时钟约束；
-6. 如果实际时钟不是 50 MHz，修改 `fpga_top.CLOCK_HZ`；
-7. 若使用 PLL，约束输入时钟，并把 PLL 的 locked 信号加入复位释放条件；
-8. 综合后检查未约束时钟、未约束 IO、setup/hold 和 worst slack。
+## 约束内容
 
-第一版只约束 LED 和 UART。DDR3、HDMI、PCIe、摄像头等接口应从厂商示例工程逐项加入，不要凭猜测填写管脚。
+- 输入时钟：`sys_clk_i` 连接板载 50 MHz 时钟，按实际频率建立主时钟约束；CPU 镜像在 RTL 内二分频。
+- 复位：`reset_n_i` 异步置位、同步释放。
+- LCD／触摸：Bank3 配置为 3.3 V，对应 `Vcc33` 引脚约束；RGB 数据、行场同步、像素时钟与 GT9147 的 I²C、INT 引脚按原理图分配。
+- 串口与按键：UART TX 为 115200、8N1；按键低有效。
 
+## 添加接口
+
+DDR3、HDMI、PCIe、摄像头等接口应从厂商示例工程逐项加入，核对每个 Bank 的 IO 标准与电压后再分配管脚，不要凭猜测填写。新增约束后重新执行综合与布局布线，检查未约束时钟、未约束 IO、setup/hold 和 worst slack。
+
+其他板型的器件与管脚不同，不能直接套用 ATK-L50 约束：RK3568_MES2L100H、盘古 676、盘古 50 和 SoPC 板卡需要各自的约束文件。

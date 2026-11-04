@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
 from pathlib import Path
 
@@ -256,7 +257,8 @@ def main():
         path = ROOT / item["path"]
         assert sha(path.read_bytes()) == item["sha256"]
         raw = path.read_bytes()
-        private_tokens = [str(ROOT), str(ROOT).replace("\\", "/"), "fffffffffffffffe"]
+        private_tokens = {str(ROOT), str(ROOT).replace("\\", "/"), Path.home().name}
+        private_tokens.update(value for name in ('USERNAME', 'COMPUTERNAME') if (value := os.environ.get(name)))
         for private in private_tokens:
             assert private.encode() not in raw and private.encode("utf-16le") not in raw, (path, private)
         if path.suffix not in (".sbit", ".smsk", ".bin", ".png"):

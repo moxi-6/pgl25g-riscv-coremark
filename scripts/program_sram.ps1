@@ -43,7 +43,7 @@ foreach ($File in $Release.files) {
     if ((Get-FileHash -LiteralPath $Path).Hash -ne $File.sha256) { throw "Release hash mismatch: $($File.file)" }
 }
 if ($Target -eq 'vendor') {
-    # Separate provenance for an unchanged vendor reference, not our own build.
+    # Separate provenance for an unchanged vendor reference, not a project-built image.
     $VendorProject = Get-Content -LiteralPath (Join-Path $ReleaseDir 'flow_led.pds') -Raw
     if ($Release.provenance -ne 'ATK 25G flow_led; original ZIP members individually CRC-verified' -or
         $VendorProject -notmatch '\(_device PGL25G\)' -or
@@ -134,10 +134,10 @@ try {
     $RawStatus = if ($RawMatches.Count) { [Convert]::ToUInt32($RawMatches[$RawMatches.Count-1].Groups[1].Value,16) } else { $null }
     $StatusAgrees = if ($null -ne $FinalStatus -and $null -ne $RawStatus) { $FinalStatus -eq $RawStatus } else { $null }
     $UserModeSignalsReady = $(if ($null -ne $FinalStatus) { ($FinalStatus -band 0xe5000) -eq 0xe5000 } else { $null })
-    # Positive evidence that the device is really running and driving IO, read from
-    # the tool's OWN printed decode rather than from our own bit arithmetic. If the
-    # log ever shows a different family template (different bit positions), this
-    # returns $null and we refuse to claim IO is active.
+    # Positive evidence that the device is running and driving IO, taken from the
+    # tool's own printed decode rather than from locally computed bit arithmetic.
+    # If the log shows a different family template (different bit positions), this
+    # returns $null and IO is not reported as active.
     $GoutenMatches = [regex]::Matches(($Output -join "`n"), 'Bit 17:\s+([01])\s+gouten\b')
     $DecodedGouten = if ($GoutenMatches.Count) { $GoutenMatches[$GoutenMatches.Count-1].Groups[1].Value -eq '1' } else { $null }
     $DoneMatches = [regex]::Matches(($Output -join "`n"), 'Bit 12:\s+([01])\s+done\b')

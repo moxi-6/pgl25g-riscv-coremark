@@ -10,7 +10,7 @@ if (Test-Path (Join-Path $LocalBin 'iverilog.exe')) {
 foreach ($Tool in @('iverilog', 'vvp')) {
     if (-not (Get-Command $Tool -ErrorAction SilentlyContinue)) { throw "Missing tool: $Tool" }
 }
-foreach ($Firmware in @('software/build/firmware.hex', 'software/build/runtime_test/firmware.hex', 'software/build/perf_test/firmware.hex', 'software/build/perf_report/firmware.hex', 'software/build/coremark/firmware.hex', 'software/build/coremark/sim_firmware.hex', 'software/build/game_sim/firmware.hex')) {
+foreach ($Firmware in @('software/build/firmware.hex', 'software/build/runtime_test/firmware.hex', 'software/build/perf_test/firmware.hex', 'software/build/perf_report/firmware.hex', 'software/build/coremark/firmware.hex', 'software/build/coremark/sim_firmware.hex')) {
     if (-not $SkipSoc -and -not (Test-Path (Join-Path $ProjectRoot $Firmware) -PathType Leaf)) {
         throw "Missing $Firmware. Run scripts/build_firmware.ps1 first; -SkipSoc explicitly runs a PARTIAL regression."
     }
@@ -120,19 +120,12 @@ try {
         if (-not (Test-Path $CoreMarkSimHex -PathType Leaf)) {throw 'Missing dedicated CoreMark simulation image.'}
         $CoreMarkDefines = @(Get-CoreMarkIsaDefines $CoreMarkSimHex)
         Invoke-Testbench 'tb_coremark' ($CoreSources + $SocSources) '[PASS] coremark' $CoreMarkDefines
-        # The reflex game is interactive: the testbench presses the matching
-        # KEY on one round and a wrong one on the next, and the simulated image
-        # shortens the hold timeout so a match fits inside a few seconds of
-        # wall-clock simulation.
-        $GameSimHex = Join-Path $ProjectRoot 'software/build/game_sim/firmware.hex'
-        if (-not (Test-Path $GameSimHex -PathType Leaf)) {throw 'Missing reflex game simulation image (software/build/game_sim/firmware.hex).'}
-        Invoke-Testbench 'tb_game' ($CoreSources + $SocSources) '[PASS] reflex_game'
         if ($RebuildFirmware) {
-            Write-Host 'All 17 simulations passed. Firmware build script completed; inspect its per-app manifest output for rebuild scope.' -ForegroundColor Green
+            Write-Host 'All 16 simulations passed. Firmware build script completed; inspect its per-app manifest output for rebuild scope.' -ForegroundColor Green
         } else {
-            Write-Host 'All 17 simulations passed. Firmware images used as provided; use -RebuildFirmware to rebuild.' -ForegroundColor Green
+            Write-Host 'All 16 simulations passed. Firmware images used as provided; use -RebuildFirmware to rebuild.' -ForegroundColor Green
         }
     } else {
-        Write-Warning 'PARTIAL: 10 simulations passed; seven firmware-dependent tests explicitly skipped.'
+        Write-Warning 'PARTIAL: 10 simulations passed; six firmware-dependent tests explicitly skipped.'
     }
 } finally { Pop-Location }

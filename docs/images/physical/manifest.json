@@ -1,0 +1,26 @@
+{
+  "source": "Operator-supplied photographs on 2026-11-04",
+  "images": [
+    {
+      "file": "mine_screen.jpg",
+      "original_sha256": "b229497b2d6a38a03d9430593090079c6eea51e583450371d8d5428d398e5ced",
+      "sha256": "95b6cd8182061e214638d78405c487816e6d49f18de0d72ed5b2be5f0e80d345",
+      "rotation_degrees": 180,
+      "processing": "orientation correction and EXIF removal; image content unchanged"
+    },
+    {
+      "file": "system_overview.jpg",
+      "original_sha256": "827c3da81563d6a946aca0c536737857f9f2ef8347ffe5188d150781244f8fd4",
+      "sha256": "f0d11dbe40f25f7c27577dd76d8295a230020231747e6f2d48a550552f1edc2a",
+      "rotation_degrees": 0,
+      "processing": "orientation correction and EXIF removal; image content unchanged"
+    },
+    {
+      "file": "board_detail.jpg",
+      "original_sha256": "fc80d6720c63f8f80442a69073d61655ee6ed17efa87e6c366cd1a6dfc343f56",
+      "sha256": "12c87f7a6fe73c56cc401a3b8ed93845356930b60e2927e8a7cab49fa8ff35d5",
+      "rotation_degrees": 0,
+      "processing": "orientation correction and EXIF removal; image content unchanged"
+    }
+  ]
+}

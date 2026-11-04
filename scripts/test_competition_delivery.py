@@ -5,7 +5,7 @@ from pathlib import Path
 import tempfile
 import unittest
 import zipfile
-from competition_artifacts import DOCS, audit_combined_source, inside, source_snapshot, verify_files
+from competition_artifacts import DOCS, PUBLIC_DOC_DIRS, audit_combined_source, inside, source_snapshot, verify_files
 from build_competition_delivery import READY, verify_archive
 
 
@@ -45,9 +45,13 @@ class DeliveryGuards(unittest.TestCase):
         (self.root / 'LICENSE').write_text('Project license')
         (self.root / 'docs' / 'local_license_request.txt').write_text('Machine-specific request')
         (self.root / 'docs' / 'development_handoff.md').write_text('Internal notes')
+        for folder in PUBLIC_DOC_DIRS:
+            (self.root / folder).mkdir(parents=True)
+            (self.root / folder / 'public.txt').write_text('Published evidence')
         files = source_snapshot(self.root, include_docs=True)
         self.assertIn('LICENSE', files)
-        self.assertEqual({p for p in files if p.startswith('docs/')}, {'docs/' + name for name in DOCS})
+        self.assertEqual({p for p in files if p.startswith('docs/')},
+                         {'docs/' + name for name in DOCS} | {folder + '/public.txt' for folder in PUBLIC_DOC_DIRS})
 
     def test_release_must_embed_current_ordered_rtl(self):
         (self.root / 'boards/atk_l50').mkdir(parents=True)
