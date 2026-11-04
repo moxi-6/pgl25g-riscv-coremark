@@ -1,0 +1,50 @@
+# REFERENCE ONLY - extracted from supplied ATK-L50_IO.fdc.
+# Clock/reset are LVCMOS12 here, while the guide uses LVCMOS18.
+# Confirm physical board revision and bank supplies before implementation/download.
+# Ports match atk_l50_bringup and atk_l50_top. No unused peripheral pins.
+create_clock -name {sys_clk} [get_ports {sys_clk}] -period {20} -waveform {0.000 10.000} -add
+define_attribute {p:sys_clk} {PAP_IO_DIRECTION} {INPUT}
+define_attribute {p:sys_clk} {PAP_IO_LOC} {T9}
+define_attribute {p:sys_clk} {PAP_IO_VCCIO} {1.2}
+define_attribute {p:sys_clk} {PAP_IO_STANDARD} {LVCMOS12}
+define_attribute {p:sys_clk} {PAP_IO_NONE} {TRUE}
+define_attribute {p:sys_rst_n} {PAP_IO_DIRECTION} {INPUT}
+define_attribute {p:sys_rst_n} {PAP_IO_LOC} {T4}
+define_attribute {p:sys_rst_n} {PAP_IO_VCCIO} {1.2}
+define_attribute {p:sys_rst_n} {PAP_IO_STANDARD} {LVCMOS12}
+define_attribute {p:sys_rst_n} {PAP_IO_NONE} {TRUE}
+define_attribute {p:led[3]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[3]} {PAP_IO_LOC} {P15}
+define_attribute {p:led[3]} {PAP_IO_VCCIO} {1.5}
+define_attribute {p:led[3]} {PAP_IO_STANDARD} {LVCMOS15}
+define_attribute {p:led[3]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[3]} {PAP_IO_PULLUP} {TRUE}
+define_attribute {p:led[3]} {PAP_IO_SLEW} {SLOW}
+define_attribute {p:led[2]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[2]} {PAP_IO_LOC} {P16}
+define_attribute {p:led[2]} {PAP_IO_VCCIO} {1.5}
+define_attribute {p:led[2]} {PAP_IO_STANDARD} {LVCMOS15}
+define_attribute {p:led[2]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[2]} {PAP_IO_PULLUP} {TRUE}
+define_attribute {p:led[2]} {PAP_IO_SLEW} {SLOW}
+define_attribute {p:led[1]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[1]} {PAP_IO_LOC} {L14}
+define_attribute {p:led[1]} {PAP_IO_VCCIO} {1.5}
+define_attribute {p:led[1]} {PAP_IO_STANDARD} {LVCMOS15}
+define_attribute {p:led[1]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[1]} {PAP_IO_PULLUP} {TRUE}
+define_attribute {p:led[1]} {PAP_IO_SLEW} {SLOW}
+define_attribute {p:led[0]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[0]} {PAP_IO_LOC} {C8}
+define_attribute {p:led[0]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:led[0]} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:led[0]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[0]} {PAP_IO_PULLUP} {TRUE}
+define_attribute {p:led[0]} {PAP_IO_SLEW} {SLOW}
+define_attribute {p:uart_txd} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:uart_txd} {PAP_IO_LOC} {C15}
+define_attribute {p:uart_txd} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:uart_txd} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:uart_txd} {PAP_IO_DRIVE} {8}
+define_attribute {p:uart_txd} {PAP_IO_NONE} {TRUE}
+define_attribute {p:uart_txd} {PAP_IO_SLEW} {SLOW}

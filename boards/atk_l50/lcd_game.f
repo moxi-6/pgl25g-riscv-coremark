@@ -1,0 +1,14 @@
+rtl/core/rv32i_pkg.sv
+rtl/core/rv32i_alu.sv
+rtl/core/rv32i_imm_gen.sv
+rtl/core/rv32i_regfile.sv
+rtl/core/rv32i_decoder.sv
+rtl/core/rv32i_core_3stage.sv
+rtl/periph/uart_tx.sv
+rtl/soc/sync_imem.sv
+rtl/soc/sync_dmem.sv
+rtl/soc/rv32i_soc.sv
+rtl/top/reset_sync.sv
+rtl/periph/lcd_800x480.sv
+rtl/periph/lcd_game_display.sv
+rtl/top/atk_l50_lcd_game.sv

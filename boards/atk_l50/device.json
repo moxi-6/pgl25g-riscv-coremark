@@ -1,0 +1,12 @@
+{
+  "board": "ATK-L50",
+  "core_board": "CFL50B",
+  "chip_marking": "PGL25G (user confirmed; JTAG ID 0x00511899)",
+  "family": "Logos",
+  "device": "PGL25G",
+  "speedgrade": "-6",
+  "package": "MBG324",
+  "temperature_grade": "Industrial (I)",
+  "evidence": "User corrected device to PGL25G; live JTAG scan identified PGL25G, ID 0x00511899. Previous PGL50G photo interpretation was incorrect.",
+  "io_voltage_status": "Guide-aligned fixed-pin profile: Bank2 clock/reset LVCMOS18, Bank0 LVCMOS33 (J27 photo at 3V3); Bank1 LEDs LVCMOS15 per guide with physical 1.35V supply. Not yet board-tested."
+}

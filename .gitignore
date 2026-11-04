@@ -1,0 +1,34 @@
+# 构建与仿真产物
+/build/
+/software/build/
+*.vvp
+*.vcd
+*.fst
+*.gtkw
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# 日志
+/log/
+*.log
+
+# 编辑器与系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# 备份与临时文件
+*.bak
+*.orig
+*.rej
+*~
+
+# 本机授权信息（含网卡 MAC / Host ID，不得公开）
+/docs/PDS本机授权申请信息.txt
+
+# 个人检索笔记（与作品无关）
+/docs/西安科技大学指导老师检索.md

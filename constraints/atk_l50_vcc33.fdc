@@ -1,0 +1,93 @@
+# VCC33 PROFILE - board-proven IO budget for this ATK-L50 (PGL25G).
+#
+# Why this file exists (2026-10-21):
+#   * The vendor flow_led.fdc and the guide (table 16.5.1) declare led[1..3] as
+#     VCCIO 1.5 / LVCMOS15 and sys_clk/sys_rst_n as VCCIO 1.8 / LVCMOS18.
+#   * This board has no 1.5V rail at all (BANK0/BANK3 switchable 3.3/2.5/1.8,
+#     BANK1 fixed 1.35V for DDR3, BANK2 1.8V). The 1.5V declaration cannot be
+#     satisfied by any jumper setting.
+#   * With those constraints the four LEDs sat permanently lit and no design
+#     showed observable motion, including the vendor's own example.
+#   * Rebuilding the SAME flow_led.v with every port declared VCCIO 3.3 and the
+#     clocks on LVCMOS12 (as in the user's working my_led project from
+#     D:\fpga11\my_led) produced a working 0.5 s LED rotation on this board.
+#     Only the .fdc changed between the two bitstreams.
+#
+# So this profile keeps exactly that proven IO recipe for the CPU test:
+#   sys_clk     T9  VCCIO 3.3 LVCMOS12  (clock comes from the board oscillator)
+#   sys_rst_n   T4  VCCIO 3.3 LVCMOS12
+#   led[0]      C8  VCCIO 3.3 LVCMOS33  (BANK0)
+#   led[1..3]   L14/P16/P15 VCCIO 3.3 LVCMOS33 (BANK1)
+#   uart_txd    C15 VCCIO 3.3 LVCMOS33  (BANK0)
+#
+# Still an implementation candidate: it is proven for the LED function, not
+# characterized. Keep the guard rails (no Flash/eFuse writes, SRAM only).
+create_clock -name {sys_clk} [get_ports {sys_clk}] -period {20} -waveform {0.000 10.000} -add
+define_attribute {p:sys_clk} {PAP_IO_DIRECTION} {INPUT}
+define_attribute {p:sys_clk} {PAP_IO_LOC} {T9}
+define_attribute {p:sys_clk} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:sys_clk} {PAP_IO_STANDARD} {LVCMOS12}
+define_attribute {p:sys_clk} {PAP_IO_NONE} {TRUE}
+define_attribute {p:sys_rst_n} {PAP_IO_DIRECTION} {INPUT}
+define_attribute {p:sys_rst_n} {PAP_IO_LOC} {T4}
+define_attribute {p:sys_rst_n} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:sys_rst_n} {PAP_IO_STANDARD} {LVCMOS12}
+define_attribute {p:sys_rst_n} {PAP_IO_NONE} {TRUE}
+define_attribute {p:led[3]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[3]} {PAP_IO_LOC} {P15}
+define_attribute {p:led[3]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:led[3]} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:led[3]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[3]} {PAP_IO_NONE} {TRUE}
+define_attribute {p:led[3]} {PAP_IO_SLEW} {SLOW}
+define_attribute {p:led[2]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[2]} {PAP_IO_LOC} {P16}
+define_attribute {p:led[2]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:led[2]} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:led[2]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[2]} {PAP_IO_NONE} {TRUE}
+define_attribute {p:led[2]} {PAP_IO_SLEW} {SLOW}
+define_attribute {p:led[1]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[1]} {PAP_IO_LOC} {L14}
+define_attribute {p:led[1]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:led[1]} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:led[1]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[1]} {PAP_IO_NONE} {TRUE}
+define_attribute {p:led[1]} {PAP_IO_SLEW} {SLOW}
+define_attribute {p:led[0]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[0]} {PAP_IO_LOC} {C8}
+define_attribute {p:led[0]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:led[0]} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:led[0]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[0]} {PAP_IO_NONE} {TRUE}
+define_attribute {p:led[0]} {PAP_IO_SLEW} {SLOW}
+define_attribute {p:uart_txd} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:uart_txd} {PAP_IO_LOC} {C15}
+define_attribute {p:uart_txd} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:uart_txd} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:uart_txd} {PAP_IO_DRIVE} {8}
+define_attribute {p:uart_txd} {PAP_IO_NONE} {TRUE}
+define_attribute {p:uart_txd} {PAP_IO_SLEW} {SLOW}
+# KEY0..KEY3 on the base board: push-to-ground, active low, external pull-ups,
+# so no internal pull-up is requested. They sit on the same 3.3 V IO banks and
+# use the LVCMOS12 input threshold already proven for sys_clk/sys_rst_n.
+define_attribute {p:key[3]} {PAP_IO_DIRECTION} {INPUT}
+define_attribute {p:key[3]} {PAP_IO_LOC} {M10}
+define_attribute {p:key[3]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:key[3]} {PAP_IO_STANDARD} {LVCMOS12}
+define_attribute {p:key[3]} {PAP_IO_NONE} {TRUE}
+define_attribute {p:key[2]} {PAP_IO_DIRECTION} {INPUT}
+define_attribute {p:key[2]} {PAP_IO_LOC} {N9}
+define_attribute {p:key[2]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:key[2]} {PAP_IO_STANDARD} {LVCMOS12}
+define_attribute {p:key[2]} {PAP_IO_NONE} {TRUE}
+define_attribute {p:key[1]} {PAP_IO_DIRECTION} {INPUT}
+define_attribute {p:key[1]} {PAP_IO_LOC} {T12}
+define_attribute {p:key[1]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:key[1]} {PAP_IO_STANDARD} {LVCMOS12}
+define_attribute {p:key[1]} {PAP_IO_NONE} {TRUE}
+define_attribute {p:key[0]} {PAP_IO_DIRECTION} {INPUT}
+define_attribute {p:key[0]} {PAP_IO_LOC} {V12}
+define_attribute {p:key[0]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:key[0]} {PAP_IO_STANDARD} {LVCMOS12}
+define_attribute {p:key[0]} {PAP_IO_NONE} {TRUE}
