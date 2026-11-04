@@ -285,7 +285,9 @@ define_attribute {p:key[0]} {PAP_IO_NONE} {TRUE}
 # ---- RGB LCD touch panel (GT9147/GT9xx, I2C) ----------------------------
 # Pinout from the ATK-L50 development guide ch.38: the panel's 4-wire touch
 # header maps T_SCK->SCL, T_MOSI->SDA, T_CS->RESET, T_PEN->INT.
-# The SDA/SCL pull-ups live on the LCD module; the FPGA only pulls low.
+# SDA is open-drain (drive low or release); the module supplies the pull-up.
+# SCL is currently a push-pull master output; clock stretching is unsupported.
+# INT is driven only while selecting the address and then released for input.
 define_attribute {p:tp_scl} {PAP_IO_DIRECTION} {OUTPUT}
 define_attribute {p:tp_scl} {PAP_IO_LOC} {L4}
 define_attribute {p:tp_scl} {PAP_IO_VCCIO} {3.3}

@@ -53,19 +53,8 @@ $Apps = if ($App -eq 'all') { @('main', 'runtime_test', 'perf_test', 'perf_repor
 foreach ($Name in $Apps) {
     $OutputDir = if ($Name -eq 'main') { 'build' } else { "build/$Name" }
     $MainSource = if ($AppMain.ContainsKey($Name)) { $AppMain[$Name] } else { "$Name.c" }
-    # Every argument is quoted exactly once, here, and the whole command is handed
-    # to bash as ONE string. Passing a PowerShell array to wsl.exe lets the
-    # command line be re-split on whitespace, so a multi-file image's
-    # "EXTRA_SRCS=a.c b.c ..." arrived as several separate make arguments and
-    # make treated the extra names as goals. Single-file images never hit this
-    # because their EXTRA_SRCS is empty, which is why it only surfaced now.
-    #
-    # $WslRoot must NOT be pre-quoted in this array: the loop at the end quotes
-    # every element, and quoting it twice produced ''\''/mnt/...'\''' which
-    # bash reads as an empty string. make then failed with "No such file or
-    # directory" while the script still reported success, because a stale
-    # manifest from an earlier build was present and the manifest's existence
-    # was all the script checked.
+    # Quote each argument exactly once and pass one command string to bash.
+    # This preserves spaces in paths and in multi-file EXTRA_SRCS values.
     $MakeParts = @('make', '-C', $WslRoot,
         "RISCV_PREFIX=$RiscvPrefix", "MARCH=$Isa", "RAM_BYTES=$RamBytes", "OPT=$Opt", "RELAX=$Relax", "EXTRA_CFLAGS=$ExtraCflags", "APP=$MainSource", "BUILD_DIR=$OutputDir")
     if ($AppSources.ContainsKey($Name)) { $MakeParts += "EXTRA_SRCS=$($AppSources[$Name])" }
@@ -73,11 +62,8 @@ foreach ($Name in $Apps) {
     if ($Rebuild) { $MakeParts += '-B' }
     $Command = ($MakeParts | ForEach-Object { ConvertTo-WslQuote $_ }) -join ' '
     $Arguments = @('-d', $WslDistro, '--', 'bash', '-lc', $Command)
-    # Record the manifest's timestamp before the build. A stale manifest left
-    # over from an earlier run makes "the manifest exists" meaningless as a
-    # success signal, and that is exactly how a failed make() once passed for a
-    # good build: wsl.exe reported non-zero, the manifest existed from a
-    # previous run, and nothing noticed the image had not been rebuilt.
+    # Require a newly verified manifest; a file left by a prior build is not
+    # evidence that this invocation rebuilt the requested configuration.
     $ManifestPath = Join-Path $SoftwareRoot "$OutputDir/firmware.json"
     $BeforeStamp = if (Test-Path -LiteralPath $ManifestPath) { (Get-Item -LiteralPath $ManifestPath).LastWriteTimeUtc } else { $null }
     $SavedPreference = $ErrorActionPreference
@@ -86,12 +72,8 @@ foreach ($Name in $Apps) {
         & wsl.exe @Arguments
         $BuildExit = $LASTEXITCODE
     } finally { $ErrorActionPreference = $SavedPreference }
-    # wsl.exe reports a non-zero exit whenever it writes anything to stderr, and
-    # this host's WSL always prints an unrelated localhost/NAT proxy notice
-    # there. A non-zero code alone therefore cannot fail the build, so the check
-    # below is that the manifest was REFRESHED: make rewrites firmware.json only
-    # after verify_firmware.py has accepted the image, so a newer timestamp is
-    # the real proof that this run produced a verified image.
+    # The verifier writes firmware.json after accepting the image. Check that
+    # it was refreshed, then verify its identity, source and artifact hashes.
     if (-not (Test-Path -LiteralPath $ManifestPath)) {
         throw "Firmware build failed: $Name (exit=$BuildExit); no manifest was produced."
     }
@@ -99,13 +81,8 @@ foreach ($Name in $Apps) {
     if ($null -ne $BeforeStamp -and $AfterStamp -le $BeforeStamp) {
         throw "Firmware build for $Name did not refresh $ManifestPath (exit=$BuildExit); the image was NOT rebuilt."
     }
-    # The build runs inside WSL and every read below comes back over the 9p
-    # mount. A file can be visible in WSL yet momentarily stale or unreadable
-    # from Windows: the manifest read here once returned the pre-build copy,
-    # which then looked like a source whose hash had changed. Retry until the
-    # manifest parses as JSON, so a transient miss is not reported as a broken
-    # build. The retry lives here rather than inline because the manifest is
-    # needed before the per-artifact helper below is defined.
+    # Retry transient read/parse failures across the Windows/WSL filesystem
+    # boundary. Identity and content hashes are checked after parsing.
     function Read-Manifest([string]$Path) {
         for ($Attempt = 0; $Attempt -lt 20; $Attempt++) {
             $Text = $null

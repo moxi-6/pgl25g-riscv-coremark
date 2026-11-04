@@ -1,0 +1,645 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-04",
+  "hash": "SHA256",
+  "source_path_base": "project repository root",
+  "published_path_base": "project repository root",
+  "redactions": [
+    "Personal absolute paths replaced by project/work/install placeholders",
+    "Host name removed",
+    "JTAG cable unique identifier removed",
+    "Local serial-port number replaced by board-uart placeholder"
+  ],
+  "original_artifacts": "Original files remain unchanged in the local build directory.",
+  "entries": [
+    {
+      "path": "docs/evidence/2026-11-04/coremark/capture.txt",
+      "bytes": 744,
+      "sha256": "31db799c974b498ba57eac9f07182d0cb5a0ebd6a167516c7761f762dd121bfe",
+      "transformation": "byte-identical",
+      "source": "build/uart_capture/coremark_r9_25mhz_20261104_02/capture.txt",
+      "original_bytes": 744,
+      "original_sha256": "31db799c974b498ba57eac9f07182d0cb5a0ebd6a167516c7761f762dd121bfe"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/coremark/capture.bin",
+      "bytes": 744,
+      "sha256": "31db799c974b498ba57eac9f07182d0cb5a0ebd6a167516c7761f762dd121bfe",
+      "transformation": "byte-identical",
+      "source": "build/uart_capture/coremark_r9_25mhz_20261104_02/capture.bin",
+      "original_bytes": 744,
+      "original_sha256": "31db799c974b498ba57eac9f07182d0cb5a0ebd6a167516c7761f762dd121bfe"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/coremark/capture_metadata.json",
+      "bytes": 484,
+      "sha256": "8bdc5e4438e7916928ffb4644cfb7af8a1b0ef89aa671003aa92c5686febe980",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/uart_capture/coremark_r9_25mhz_20261104_02/result.json",
+      "original_bytes": 491,
+      "original_sha256": "cb1a5dd53595ef07097fead3d487416157de004f088c6fc77cc06960b39a8b06"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/coremark/program_result.json",
+      "bytes": 733,
+      "sha256": "036e5128a9ffd5f53ff9f7764609dd6f577d430d75df16725f906062899f1fe0",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/uart_capture/coremark_r9_25mhz_20261104_02/program_result.json",
+      "original_bytes": 815,
+      "original_sha256": "741d00bdb0437bc2e5825708c54b2430955c7c6c88560042246153e08b6970ec"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/coremark/program_log.txt",
+      "bytes": 8234,
+      "sha256": "a997b8ce6bb3178e2afb0a7e2aad3075fad0e5dae2b3c19b64f0787c8437a179",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/cpu_sram_program.log",
+      "original_bytes": 8255,
+      "original_sha256": "a43369cc2289e6f9e752576756f43cc2bb83a1bfaf4bd40d14c12c1d59bb6bb5"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/coremark/timing.rtr",
+      "bytes": 900085,
+      "sha256": "9a45f7ede0360d39ee45c72931bc83d38d659d5e1cac238747616b0860d08133",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/board_release/cpu/coremark/timing.rtr",
+      "original_bytes": 900113,
+      "original_sha256": "18c0e5fb0cecc24147a527439c13d1b1f09f63669ce36ccd9aa5a3a276aaf33d"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/coremark/device_map.txt",
+      "bytes": 8229,
+      "sha256": "cfaef700c0818c38575df19819bce0b5d7eec8a7ac5a629a1ad9a485090ee114",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/board_release/cpu/coremark/device_map.log",
+      "original_bytes": 8252,
+      "original_sha256": "73c13861adf9ac5359717624236540ae1725e523cc6645e33375ba488c21915e"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/coremark/timing_tool.txt",
+      "bytes": 1832,
+      "sha256": "bfcfeb1c1f21e5f33e73d3dc37c6547a0a73a2cb7b1a853ff6bae7c43df6e4a4",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/board_release/cpu/coremark/timing.log",
+      "original_bytes": 1848,
+      "original_sha256": "e9f060b47afae2d2335d3332412d6480f9f7dc0d4a502aaf9345bd6fd6225a11"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/coremark/pins.pcf",
+      "bytes": 930,
+      "sha256": "ec77f9ce7c45b21f69de1aa9c6ee16533e5cf4ee76f7bf37d1ef3c3d71dfb400",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/board_release/cpu/coremark/pins.pcf",
+      "original_bytes": 930,
+      "original_sha256": "ec77f9ce7c45b21f69de1aa9c6ee16533e5cf4ee76f7bf37d1ef3c3d71dfb400"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/coremark/constraints.fdc",
+      "bytes": 5214,
+      "sha256": "8e8848a36f476fd35ca8c693b0fe20d92b9d32fcf28ab35ace723dcdb1595605",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/board_release/cpu/coremark/constraints.fdc",
+      "original_bytes": 5218,
+      "original_sha256": "f173ab4c0f8ea21bc34f2f975037ea0e2886fdc572e7ed2b8d9ca65b4f7e23f9"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/coremark/build_inputs.json",
+      "bytes": 1136,
+      "sha256": "382fbd2c3155d482ad58060229721d1c09c4375021983cffd126779de0dafbeb",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/board_release/cpu/coremark/run_inputs.json",
+      "original_bytes": 1163,
+      "original_sha256": "1a9093c519610b320ff8dcfcda03832be3fa56861f13cfdc704ad2065c722d34"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/coremark/implementation_checks.json",
+      "bytes": 1357,
+      "sha256": "ff37037c85065bd01d3b5f7285d42a5751f044ffeecb9a200b23a558808ff1ea",
+      "transformation": "redaction-with-original-and-public-report-hashes",
+      "source": "build/board_release/cpu/coremark/implementation_checks.json",
+      "original_bytes": 1057,
+      "original_sha256": "6eb15f8fd99e331b96c0e142e42923a6d56a4b76d03974fa8ec41cf60dcd378e"
+    },
+    {
+      "path": "releases/2026-11-04/coremark/atk_l50_top.sbit",
+      "bytes": 1007712,
+      "sha256": "49740590a9e7192592eec30b49be8edafedc71640a731f8fb60a4ab0a01c3a47",
+      "transformation": "byte-identical",
+      "source": "build/board_release/cpu/coremark/atk_l50_top.sbit",
+      "original_bytes": 1007712,
+      "original_sha256": "49740590a9e7192592eec30b49be8edafedc71640a731f8fb60a4ab0a01c3a47"
+    },
+    {
+      "path": "releases/2026-11-04/coremark/atk_l50_top.smsk",
+      "bytes": 1007712,
+      "sha256": "9cc5284d33fc36bc63946ba46a63d533be8f47ac158a4dde78f091571e2f60be",
+      "transformation": "byte-identical",
+      "source": "build/board_release/cpu/coremark/atk_l50_top.smsk",
+      "original_bytes": 1007712,
+      "original_sha256": "9cc5284d33fc36bc63946ba46a63d533be8f47ac158a4dde78f091571e2f60be"
+    },
+    {
+      "path": "releases/2026-11-04/coremark/firmware.hex",
+      "bytes": 89605,
+      "sha256": "d4c4f7e8470a429e71cce9a9e9f3a2ebdee76b13b3e9d96d13bcdb2f4aedab4f",
+      "transformation": "byte-identical",
+      "source": "build/board_release/cpu/coremark/firmware.hex",
+      "original_bytes": 89605,
+      "original_sha256": "d4c4f7e8470a429e71cce9a9e9f3a2ebdee76b13b3e9d96d13bcdb2f4aedab4f"
+    },
+    {
+      "path": "releases/2026-11-04/coremark/build_flags.txt",
+      "bytes": 302,
+      "sha256": "91cacc7438ba5e041608456c8fb067718ceb9da621e42ee93c3dc951ef33fb4d",
+      "transformation": "byte-identical",
+      "source": "build/board_release/cpu/coremark/build_flags.txt",
+      "original_bytes": 302,
+      "original_sha256": "91cacc7438ba5e041608456c8fb067718ceb9da621e42ee93c3dc951ef33fb4d"
+    },
+    {
+      "path": "releases/2026-11-04/coremark/firmware_manifest.json",
+      "bytes": 2808,
+      "sha256": "fa2327997de17c71ab5e3a2470584594bec32412552e0ae1736f29660b73cbfa",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/board_release/cpu/coremark/firmware.json",
+      "original_bytes": 2808,
+      "original_sha256": "fa2327997de17c71ab5e3a2470584594bec32412552e0ae1736f29660b73cbfa"
+    },
+    {
+      "path": "releases/2026-11-04/coremark/firmware.hex.even",
+      "bytes": 81920,
+      "sha256": "09863ab55def25a5386af64358924ca4d9a6daae7e312572795485c08f3b4819",
+      "transformation": "byte-identical",
+      "source": "build/board_release/cpu/coremark/firmware.hex.even",
+      "original_bytes": 81920,
+      "original_sha256": "09863ab55def25a5386af64358924ca4d9a6daae7e312572795485c08f3b4819"
+    },
+    {
+      "path": "releases/2026-11-04/coremark/firmware.hex.odd",
+      "bytes": 81920,
+      "sha256": "752d28421b83181a205c6e446e8e620ec01c82ec3de45a910dac3e628a7e5728",
+      "transformation": "byte-identical",
+      "source": "build/board_release/cpu/coremark/firmware.hex.odd",
+      "original_bytes": 81920,
+      "original_sha256": "752d28421b83181a205c6e446e8e620ec01c82ec3de45a910dac3e628a7e5728"
+    },
+    {
+      "path": "releases/2026-11-04/coremark/manifest.json",
+      "bytes": 2111,
+      "sha256": "1e6a136da842c7d317b25af057a2ac127cfdf172dd83de1ffd14ffa352a13c10",
+      "transformation": "generated",
+      "derived_from": [
+        "build/board_release/cpu/coremark/release.json",
+        "build/uart_capture/coremark_r9_25mhz_20261104_02/program_result.json"
+      ]
+    },
+    {
+      "path": "docs/evidence/2026-11-04/mine/capture.txt",
+      "bytes": 197,
+      "sha256": "c950109c39857d03b3ebed0eae05cf9cb1708ad247a0304b9e127a9611d193ed",
+      "transformation": "byte-identical",
+      "source": "build/uart_capture/mine_board_20261104_02/capture.txt",
+      "original_bytes": 197,
+      "original_sha256": "c950109c39857d03b3ebed0eae05cf9cb1708ad247a0304b9e127a9611d193ed"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/mine/capture.bin",
+      "bytes": 197,
+      "sha256": "c950109c39857d03b3ebed0eae05cf9cb1708ad247a0304b9e127a9611d193ed",
+      "transformation": "byte-identical",
+      "source": "build/uart_capture/mine_board_20261104_02/capture.bin",
+      "original_bytes": 197,
+      "original_sha256": "c950109c39857d03b3ebed0eae05cf9cb1708ad247a0304b9e127a9611d193ed"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/mine/capture_metadata.json",
+      "bytes": 463,
+      "sha256": "6f52a30f864859fee27d2c8107b05fe71db0402e36ed0685dd4c8e1ea176275a",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/uart_capture/mine_board_20261104_02/result.json",
+      "original_bytes": 470,
+      "original_sha256": "49b0a922539f413d6dbff3bdc6a32d0f928fe7ec34222db85eef728c808931be"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/mine/program_result.json",
+      "bytes": 727,
+      "sha256": "a5f3cbfcd34619c01693b3320f3e4e24d55ce210f3fb8d3c5a0794a641033097",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/mine_sram_result.json",
+      "original_bytes": 809,
+      "original_sha256": "b5200b545ced279e332bc1f694856e217551bf09e9569ed942aa4ebe6bad93b8"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/mine/program_log.txt",
+      "bytes": 8238,
+      "sha256": "394c084a8e5ba3ab292746a25c06edcb504634b3d9a57549514bb7f5ff036177",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/mine_sram_program.log",
+      "original_bytes": 8259,
+      "original_sha256": "5ca3f85245333e2314e53bc748d0aaf1e99de8518fcd1aa6723b5996de19d61c"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/mine/timing.rtr",
+      "bytes": 968842,
+      "sha256": "6c48a6a4408ac905d85089766c7540b7d0b16f6474ce26172a34db8d8ec4ec8a",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/board_release/mine/mine/timing.rtr",
+      "original_bytes": 968870,
+      "original_sha256": "dd1f7e93f92a2715746b42a8ad935bbea2bee1ffafaf476f0427b90ae133a420"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/mine/device_map.txt",
+      "bytes": 7751,
+      "sha256": "16ddf689e5be68d4d7883a2f1fca047df1f11aba94d36772450ef93dcabf360c",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/board_release/mine/mine/device_map.log",
+      "original_bytes": 7774,
+      "original_sha256": "c7cd25dc42d4182b0f8f13f7e1f67aaa03a190dead330f64d84ae1cb066b4d9a"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/mine/timing_tool.txt",
+      "bytes": 2640,
+      "sha256": "bb67e5fe7594b020499578312f0a2538615b61c95a21dce1223492884a1e2a58",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/board_release/mine/mine/timing.log",
+      "original_bytes": 2656,
+      "original_sha256": "fb4ba1a6a01841f0efd5ebcc783709a1a9c39162c9fda7836551841c0806f2ad"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/mine/pins.pcf",
+      "bytes": 3881,
+      "sha256": "4eb4a5a98b7044692713578c6c2f92c236138b2850d5098cbeb6c24681da7e72",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/board_release/mine/mine/pins.pcf",
+      "original_bytes": 3881,
+      "original_sha256": "4eb4a5a98b7044692713578c6c2f92c236138b2850d5098cbeb6c24681da7e72"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/mine/constraints.fdc",
+      "bytes": 17386,
+      "sha256": "1c670d2c5e29a1ef7bc5b0b29536658861763fef1ca7fb339c3e71eb1c331f3f",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/board_release/mine/mine/constraints.fdc",
+      "original_bytes": 17386,
+      "original_sha256": "1c670d2c5e29a1ef7bc5b0b29536658861763fef1ca7fb339c3e71eb1c331f3f"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/mine/build_inputs.json",
+      "bytes": 845,
+      "sha256": "5b30d0440678cf6e3899b24d380dfcba19e4a40e597149c364101331c72476e5",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/board_release/mine/mine/run_inputs.json",
+      "original_bytes": 863,
+      "original_sha256": "6258f7a80cdfab2d814e32b1579fa29787bfdd25ff085b01456902936697b6c2"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/mine/implementation_checks.json",
+      "bytes": 1130,
+      "sha256": "726e9903324470a75db14326eff6c5058c11e6b2008c010d64965e979c3ce385",
+      "transformation": "redaction-with-original-and-public-report-hashes",
+      "source": "build/board_release/mine/mine/implementation_checks.json",
+      "original_bytes": 823,
+      "original_sha256": "04b9a42d84d0ac8b2d8838bfff7cdefb10ed3ce2c1f16417b32523f5d159e929"
+    },
+    {
+      "path": "releases/2026-11-04/mine/atk_l50_mine.sbit",
+      "bytes": 1007712,
+      "sha256": "3ba1897f9f0cc094daf09e28bd918bb781e4c6b70fede2801880c1308ad36f86",
+      "transformation": "byte-identical",
+      "source": "build/board_release/mine/mine/atk_l50_mine.sbit",
+      "original_bytes": 1007712,
+      "original_sha256": "3ba1897f9f0cc094daf09e28bd918bb781e4c6b70fede2801880c1308ad36f86"
+    },
+    {
+      "path": "releases/2026-11-04/mine/atk_l50_mine.smsk",
+      "bytes": 1007712,
+      "sha256": "d7e8d0745038929ca27eee645f8cc3346ec50d73d4633db0dd95ebadc8ff0eb1",
+      "transformation": "byte-identical",
+      "source": "build/board_release/mine/mine/atk_l50_mine.smsk",
+      "original_bytes": 1007712,
+      "original_sha256": "d7e8d0745038929ca27eee645f8cc3346ec50d73d4633db0dd95ebadc8ff0eb1"
+    },
+    {
+      "path": "releases/2026-11-04/mine/firmware.hex",
+      "bytes": 12970,
+      "sha256": "ffb6da9163885dd4c7579445e21c7e79ad7a83d47de0c8583697bae1b9fcec8b",
+      "transformation": "byte-identical",
+      "source": "build/board_release/mine/mine/firmware.hex",
+      "original_bytes": 12970,
+      "original_sha256": "ffb6da9163885dd4c7579445e21c7e79ad7a83d47de0c8583697bae1b9fcec8b"
+    },
+    {
+      "path": "releases/2026-11-04/mine/build_flags.txt",
+      "bytes": 224,
+      "sha256": "e5952e08b54572ee887e7de6af33f91526b4965cea78043af3f8ac00df43d759",
+      "transformation": "byte-identical",
+      "source": "build/board_release/mine/mine/build_flags.txt",
+      "original_bytes": 224,
+      "original_sha256": "e5952e08b54572ee887e7de6af33f91526b4965cea78043af3f8ac00df43d759"
+    },
+    {
+      "path": "releases/2026-11-04/mine/firmware_manifest.json",
+      "bytes": 2077,
+      "sha256": "3a6d8fe5380644aeda7f0180e050071d2c9bade65af3764e61f590800f538f20",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/board_release/mine/mine/firmware.json",
+      "original_bytes": 2077,
+      "original_sha256": "3a6d8fe5380644aeda7f0180e050071d2c9bade65af3764e61f590800f538f20"
+    },
+    {
+      "path": "releases/2026-11-04/mine/mine_font.hex",
+      "bytes": 12288,
+      "sha256": "2423b10dda05ff354bf5db86adea8c501a7974566ffcd24db31c0b1001c0c7a1",
+      "transformation": "byte-identical",
+      "source": "build/board_release/mine/mine/mine_font.hex",
+      "original_bytes": 12288,
+      "original_sha256": "2423b10dda05ff354bf5db86adea8c501a7974566ffcd24db31c0b1001c0c7a1"
+    },
+    {
+      "path": "releases/2026-11-04/mine/mine_font_map.json",
+      "bytes": 2322,
+      "sha256": "d6b9fc9d750dcb9dc05a976b47769d1ac4231b7c57fd2acd8d4c39386e377a24",
+      "transformation": "byte-identical",
+      "source": "build/board_release/mine/mine/mine_font_map.json",
+      "original_bytes": 2322,
+      "original_sha256": "d6b9fc9d750dcb9dc05a976b47769d1ac4231b7c57fd2acd8d4c39386e377a24"
+    },
+    {
+      "path": "releases/2026-11-04/mine/manifest.json",
+      "bytes": 2015,
+      "sha256": "58d5acd8c6483c3a0574acfdbecdd7e3a96b0243425a23c9030f6e4b6038da0f",
+      "transformation": "generated",
+      "derived_from": [
+        "build/board_release/mine/mine/release.json",
+        "build/mine_sram_result.json"
+      ]
+    },
+    {
+      "path": "docs/evidence/2026-11-04/coremark/score.json",
+      "bytes": 1436,
+      "sha256": "2486dede79f22d5b42eb9a7b4117b9ec7b837fb1d58c527ad9ea5b51e8ed6126",
+      "transformation": "independently-recomputed-from-raw-capture",
+      "source": "build/uart_capture/coremark_r9_25mhz_20261104_02/coremark_score.json",
+      "original_bytes": 1305,
+      "original_sha256": "f6737bb8c469025dd38e3d9b5ac910299849e6319356697c3373746e1f519633"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/coremark/simulation/cpu_r2_20261104.json",
+      "bytes": 2197,
+      "sha256": "23245fc1d4565dd19435ffc2043b83c44eed32adc87e00dc93c9a2615ddae502",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/optimization_20261103/cpu_r2_20261104/summary.json",
+      "original_bytes": 3223,
+      "original_sha256": "c6c1d3f964e5aea1406d42bffe0360f884f5bc4a43ce8611702899a27eab18c2"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/coremark/simulation/cpu_r2_20261104.txt",
+      "bytes": 1088,
+      "sha256": "b6429531f659afca9e973d6e062e2836fe633512dc0f26fdcae305ee83d5ca8f",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/optimization_20261103/cpu_r2_20261104/run.log",
+      "original_bytes": 1138,
+      "original_sha256": "bf0ae1b3cf98d7802310fca0b23a5fd19fbe9aeee4c6a07c5fc6c4e55287ff39"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/coremark/simulation/cpu_r4_zmmul_20261104.json",
+      "bytes": 2458,
+      "sha256": "8cc50349ebb11d5d15cd2c9ff24c32ae72b46ac2e40b7feca7e04bee56aedc17",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/optimization_20261103/cpu_r4_zmmul_20261104/summary.json",
+      "original_bytes": 3496,
+      "original_sha256": "7200acccb09ddb11935476969f4c976b2f601e57481d4b0c5299bb1d4fa42783"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/coremark/simulation/cpu_r4_zmmul_20261104.txt",
+      "bytes": 1214,
+      "sha256": "1f6ed321d21ba216519f5da3fed3d53204a954aaf519d8e12908abc43c75cb35",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/optimization_20261103/cpu_r4_zmmul_20261104/run.log",
+      "original_bytes": 1264,
+      "original_sha256": "a7c045c59d7b2a9c25e8878a25b4d7c3c603e62405af71e50f69470743aa94fd"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/coremark/simulation/cpu_r5_fastmem_20261104.json",
+      "bytes": 2479,
+      "sha256": "60630d51a3c1fd9221d04ffba5cc7eebb2f00b2cc98dbc6066c5c888d03a9c4f",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/optimization_20261103/cpu_r5_fastmem_20261104/summary.json",
+      "original_bytes": 3518,
+      "original_sha256": "1a3714285951ed195223d32c733c0fa7b3d8afceb6d66c1ca330b8fff27a683c"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/coremark/simulation/cpu_r5_fastmem_20261104.txt",
+      "bytes": 1208,
+      "sha256": "7110cb5f4645ab13306986a850cb0d12cfec7de3cb5023c98b273eda18e322ed",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/optimization_20261103/cpu_r5_fastmem_20261104/run.log",
+      "original_bytes": 1258,
+      "original_sha256": "ddac23edc94ccd3870069038ff6820fd6527a896597632d9f3ec8a91a153d3da"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/coremark/simulation/cpu_r4_o3_lto_inline_b_20261104.json",
+      "bytes": 2533,
+      "sha256": "57795bb2aada2a7d36b5487784da44021a3d3c62ff60af9f40b5ed8441fa5998",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/optimization_20261103/cpu_r4_o3_lto_inline_b_20261104/summary.json",
+      "original_bytes": 3574,
+      "original_sha256": "1be41fe51c9a8d42ebd6004132595ea0a1d0c6155cba6d181f4ff7d515c5f4ee"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/coremark/simulation/cpu_r4_o3_lto_inline_b_20261104.txt",
+      "bytes": 1207,
+      "sha256": "c4b7c61b2712fbf4344d146b8fd623ba0930097cf8a76e5a6a1d782ca3598082",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/optimization_20261103/cpu_r4_o3_lto_inline_b_20261104/run.log",
+      "original_bytes": 1257,
+      "original_sha256": "3a1ff7acb167b3b23a7136bf7123aafe1b543d744d1774d200bb09195703fc47"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/coremark/simulation/cpu_r7_dual_20261104.json",
+      "bytes": 2541,
+      "sha256": "173c5ffa3103419c0c3a8cf0170e078e0a0df4adec0e769c8a49e9fd676f4f62",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/optimization_20261103/cpu_r7_dual_20261104/summary.json",
+      "original_bytes": 3583,
+      "original_sha256": "2419df68e8857e7d44c553b5eb614491961067f647b4f08bbf61aea35a5cc623"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/coremark/simulation/cpu_r7_dual_20261104.txt",
+      "bytes": 1208,
+      "sha256": "01da025c0c3fef23d7b30242b4ecd81b412372386ca16375bac3d358dae5fb6a",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/optimization_20261103/cpu_r7_dual_20261104/run.log",
+      "original_bytes": 1258,
+      "original_sha256": "61db767b2f9a5b3d8c66549839fef37501a25d650616326863ae82cd8a5172c5"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/coremark/simulation/cpu_r8_dualbranch_20261104.json",
+      "bytes": 2567,
+      "sha256": "14c58f4a45b4945bb5abafa010990055dc66e633da9cfb3877b6ee67d349857d",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/optimization_20261103/cpu_r8_dualbranch_20261104/summary.json",
+      "original_bytes": 3610,
+      "original_sha256": "e08775dfec4f58c2920c8e8784f65971ec3cf30282e5dbee745b3049d6d0a133"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/coremark/simulation/cpu_r8_dualbranch_20261104.txt",
+      "bytes": 1446,
+      "sha256": "5c6690cbc08455f332f70d2fc9290e186c23a8f9486102dcffe8303a22085dc9",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/optimization_20261103/cpu_r8_dualbranch_20261104/run.log",
+      "original_bytes": 1496,
+      "original_sha256": "6270f6cad6a2151b226d09e04ec8f07d4ec2f1e8eea9d0bb52af929af3e25701"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/coremark/simulation/cpu_r9_mul2_btb128_20261104.json",
+      "bytes": 2588,
+      "sha256": "66ac371c7fceaaedaf44a3bf8992dd3fef70c3cdeb37e5ae7732ce3b250ee609",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/optimization_20261103/cpu_r9_mul2_btb128_20261104/summary.json",
+      "original_bytes": 3632,
+      "original_sha256": "ac3dfcca24613159507778a85c3d216d172e74427e468d8144fa718bd50fa224"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/coremark/simulation/cpu_r9_mul2_btb128_20261104.txt",
+      "bytes": 1442,
+      "sha256": "3f3ec2e89d6e7349b1708949146b775ce6902740096df707a0358596acfb669c",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/optimization_20261103/cpu_r9_mul2_btb128_20261104/run.log",
+      "original_bytes": 1492,
+      "original_sha256": "93a786ef36354a7b60928f48978c76615e1c8c9194b7b8b4b72816d84b3d0e48"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/coremark/simulation_comparison.json",
+      "bytes": 4979,
+      "sha256": "ab698a492937a17193361e4b25e2236ea1c4c1b0d0bc60153a3c8700787ee500",
+      "transformation": "generated"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/mine/pin_and_source_audit.json",
+      "bytes": 2656,
+      "sha256": "4ee8cfa83614d10f1d322ab0f82826fe06d02281016fab64489e7a08d35248df",
+      "transformation": "automated-checks-only",
+      "source": "build/mine_audit.json",
+      "original_bytes": 2726,
+      "original_sha256": "d176759e1e9209989aa333cd20949cdd09246e41688079ca52501dd6c3bfec06"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/mine/operator_acceptance.json",
+      "bytes": 516,
+      "sha256": "318588503f842fc16609b1ba93daafc5c84b4f7779220d62869c61d281d847ed",
+      "transformation": "generated"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/mine/simulation_integration.txt",
+      "bytes": 12658,
+      "sha256": "022a15e42c83193aa726e71399d17f13c6e380480b82c1cb29c0575090cd21f1",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/mine_checks/tb_mine.run.log",
+      "original_bytes": 12658,
+      "original_sha256": "022a15e42c83193aa726e71399d17f13c6e380480b82c1cb29c0575090cd21f1"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/mine/simulation_top_smoke.txt",
+      "bytes": 142,
+      "sha256": "5921ebeda124eb9086ac53430e2a383079d992e27db1a95b39072d69c17ebb09",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/mine_checks/tb_mine_top_smoke.run.log",
+      "original_bytes": 142,
+      "original_sha256": "5921ebeda124eb9086ac53430e2a383079d992e27db1a95b39072d69c17ebb09"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/mine/simulation_initial.png",
+      "bytes": 9120,
+      "sha256": "5aefead0562b5a932088d4cff4686958e7eaeff2d9c50016dfe8ad567ce3da00",
+      "transformation": "byte-identical",
+      "source": "build/mine_checks/initial.png",
+      "original_bytes": 9120,
+      "original_sha256": "5aefead0562b5a932088d4cff4686958e7eaeff2d9c50016dfe8ad567ce3da00"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/mine/simulation_lost.png",
+      "bytes": 10553,
+      "sha256": "d061dec2c970e13871fd3a39bb9a3b3f2f04c60ec0bd19be2577bfbe7673ee24",
+      "transformation": "byte-identical",
+      "source": "build/mine_checks/lost.png",
+      "original_bytes": 10553,
+      "original_sha256": "d061dec2c970e13871fd3a39bb9a3b3f2f04c60ec0bd19be2577bfbe7673ee24"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/mine/simulation_stage3.png",
+      "bytes": 10124,
+      "sha256": "dc40435a6572279eb05d6c0102617b00aa33a4f74b04964b3df36e6b34da1ca6",
+      "transformation": "byte-identical",
+      "source": "build/mine_checks/stage3.png",
+      "original_bytes": 10124,
+      "original_sha256": "dc40435a6572279eb05d6c0102617b00aa33a4f74b04964b3df36e6b34da1ca6"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/mine/simulation_won.png",
+      "bytes": 12275,
+      "sha256": "850f37367b3f5efd7fef299e0a4efce86f9e22d19dd47ba8027406080d909d10",
+      "transformation": "byte-identical",
+      "source": "build/mine_checks/won.png",
+      "original_bytes": 12275,
+      "original_sha256": "850f37367b3f5efd7fef299e0a4efce86f9e22d19dd47ba8027406080d909d10"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/historical_ila/summary.json",
+      "bytes": 859,
+      "sha256": "17e6fc69c0081c688de6c4586d6b9161c1343d1bbd875a72cdef45dde9350af1",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/coremark_ila/coremark_ila_summary.json",
+      "original_bytes": 893,
+      "original_sha256": "e8487fd287a0fd9b840ce0e271082727cb36297859cda03ce8d35073f21e4ae6"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/historical_ila/capture_metadata.json",
+      "bytes": 1728,
+      "sha256": "5c36385053a2e27aba71b17f0091a06f7fa2b6e9bf91e1ebb4280256751a0d5e",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/coremark_ila/capture_result.json",
+      "original_bytes": 2788,
+      "original_sha256": "092ff7e67250ae0e943afe4cea3f7b86202539edb78f27a0e083279ac663947f"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/historical_ila/samples.csv",
+      "bytes": 26299,
+      "sha256": "902369bea11f3655f1c120670b070ff6e40684892a4b4dee25d0d138766f6a8a",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/coremark_ila/coremark_ila_samples.csv",
+      "original_bytes": 26299,
+      "original_sha256": "902369bea11f3655f1c120670b070ff6e40684892a4b4dee25d0d138766f6a8a"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/historical_ila/wave.wdf",
+      "bytes": 114238,
+      "sha256": "4408ad7e85a740b7801e3cecce0f036c952f275903d5f0c1e991bf0119dbc566",
+      "transformation": "byte-identical",
+      "source": "build/coremark_ila/coremark_ila_512.wdf",
+      "original_bytes": 114238,
+      "original_sha256": "4408ad7e85a740b7801e3cecce0f036c952f275903d5f0c1e991bf0119dbc566"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/historical_ila/probe_schema.json",
+      "bytes": 2869,
+      "sha256": "a640854fd32e3c501994fb1e589d2adadeb0066d4e6bd99e55ebf94883471f3e",
+      "transformation": "local-path-and-host-redaction",
+      "source": "build/coremark_ila/probe_schema.json",
+      "original_bytes": 2972,
+      "original_sha256": "9257e8988d6b55958eb2d5f6e3d8da4d2f9c535b63dd45a75e13d41102f914f3"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/historical_ila/scope.json",
+      "bytes": 437,
+      "sha256": "f7044e6cb0e9b75da3273726734fac3c8a2a219e4c0510da4776f7a32f438571",
+      "transformation": "generated"
+    },
+    {
+      "path": "docs/evidence/2026-11-04/results.json",
+      "bytes": 1096,
+      "sha256": "c86f7cb4944d53cefd6e4e83f250d36a981ebce8065ce3d5f8185673440d2602",
+      "transformation": "generated"
+    }
+  ]
+}

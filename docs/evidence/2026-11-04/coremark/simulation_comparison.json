@@ -1,0 +1,155 @@
+{
+  "evidence_type": "simulation",
+  "rows": [
+    {
+      "stage": "R2",
+      "original_label": "cpu_r2_20261104",
+      "configuration": {},
+      "cycles": 993871,
+      "retired": 870108,
+      "projected_coremark_per_mhz": 1.006166796294489,
+      "crcs": {
+        "seedcrc": "0xe9f5",
+        "[0]crclist": "0xe714",
+        "[0]crcmatrix": "0x1fd7",
+        "[0]crcstate": "0x8e3a"
+      },
+      "summary": "docs/evidence/2026-11-04/coremark/simulation/cpu_r2_20261104.json",
+      "scope": "Single-iteration simulation; CRC check passed; not a >=10-second board score."
+    },
+    {
+      "stage": "R4",
+      "original_label": "cpu_r4_zmmul_20261104",
+      "configuration": {
+        "zmmul": true,
+        "decode_pipeline": 1
+      },
+      "cycles": 437456,
+      "retired": 315300,
+      "projected_coremark_per_mhz": 2.2859441863867453,
+      "crcs": {
+        "seedcrc": "0xe9f5",
+        "[0]crclist": "0xe714",
+        "[0]crcmatrix": "0x1fd7",
+        "[0]crcstate": "0x8e3a"
+      },
+      "summary": "docs/evidence/2026-11-04/coremark/simulation/cpu_r4_zmmul_20261104.json",
+      "scope": "Single-iteration simulation; CRC check passed; not a >=10-second board score."
+    },
+    {
+      "stage": "R5",
+      "original_label": "cpu_r5_fastmem_20261104",
+      "configuration": {
+        "zmmul": true,
+        "decode_pipeline": 0,
+        "fast_dmem": true
+      },
+      "cycles": 315987,
+      "retired": 278527,
+      "projected_coremark_per_mhz": 3.164687154851307,
+      "crcs": {
+        "seedcrc": "0xe9f5",
+        "[0]crclist": "0xe714",
+        "[0]crcmatrix": "0x1fd7",
+        "[0]crcstate": "0x8e3a"
+      },
+      "summary": "docs/evidence/2026-11-04/coremark/simulation/cpu_r5_fastmem_20261104.json",
+      "scope": "Single-iteration simulation; CRC check passed; not a >=10-second board score."
+    },
+    {
+      "stage": "R6",
+      "original_label": "cpu_r4_o3_lto_inline_b_20261104",
+      "configuration": {
+        "zmmul": true,
+        "decode_pipeline": 0,
+        "fast_dmem": true,
+        "bitmanip": true,
+        "validation": false
+      },
+      "cycles": 296413,
+      "retired": 254839,
+      "projected_coremark_per_mhz": 3.373671195257968,
+      "crcs": {
+        "seedcrc": "0xe9f5",
+        "[0]crclist": "0xe714",
+        "[0]crcmatrix": "0x1fd7",
+        "[0]crcstate": "0x8e3a"
+      },
+      "summary": "docs/evidence/2026-11-04/coremark/simulation/cpu_r4_o3_lto_inline_b_20261104.json",
+      "scope": "Single-iteration simulation; CRC check passed; not a >=10-second board score."
+    },
+    {
+      "stage": "R7",
+      "original_label": "cpu_r7_dual_20261104",
+      "configuration": {
+        "zmmul": true,
+        "decode_pipeline": 0,
+        "fast_dmem": true,
+        "bitmanip": true,
+        "validation": false,
+        "dual": true
+      },
+      "cycles": 244687,
+      "retired": 254839,
+      "projected_coremark_per_mhz": 4.086853817325808,
+      "crcs": {
+        "seedcrc": "0xe9f5",
+        "[0]crclist": "0xe714",
+        "[0]crcmatrix": "0x1fd7",
+        "[0]crcstate": "0x8e3a"
+      },
+      "summary": "docs/evidence/2026-11-04/coremark/simulation/cpu_r7_dual_20261104.json",
+      "scope": "Single-iteration simulation; CRC check passed; not a >=10-second board score."
+    },
+    {
+      "stage": "R8 BTB16",
+      "original_label": "cpu_r8_dualbranch_20261104",
+      "configuration": {
+        "zmmul": true,
+        "decode_pipeline": 0,
+        "fast_dmem": true,
+        "bitmanip": true,
+        "validation": false,
+        "dual": true,
+        "btb_entries": 16
+      },
+      "cycles": 208527,
+      "retired": 254839,
+      "projected_coremark_per_mhz": 4.795542064097215,
+      "crcs": {
+        "seedcrc": "0xe9f5",
+        "[0]crclist": "0xe714",
+        "[0]crcmatrix": "0x1fd7",
+        "[0]crcstate": "0x8e3a"
+      },
+      "summary": "docs/evidence/2026-11-04/coremark/simulation/cpu_r8_dualbranch_20261104.json",
+      "scope": "Single-iteration simulation; CRC check passed; not a >=10-second board score."
+    },
+    {
+      "stage": "R9 BTB128",
+      "original_label": "cpu_r9_mul2_btb128_20261104",
+      "configuration": {
+        "zmmul": true,
+        "decode_pipeline": 0,
+        "fast_dmem": true,
+        "bitmanip": true,
+        "validation": false,
+        "dual": true,
+        "btb_entries": 128,
+        "mul_cycles": 2
+      },
+      "cycles": 187076,
+      "retired": 254839,
+      "projected_coremark_per_mhz": 5.345421112275225,
+      "crcs": {
+        "seedcrc": "0xe9f5",
+        "[0]crclist": "0xe714",
+        "[0]crcmatrix": "0x1fd7",
+        "[0]crcstate": "0x8e3a"
+      },
+      "summary": "docs/evidence/2026-11-04/coremark/simulation/cpu_r9_mul2_btb128_20261104.json",
+      "scope": "Single-iteration simulation; CRC check passed; not a >=10-second board score."
+    }
+  ],
+  "comparison_scope": "Compiler settings, instruction extensions and memory/pipeline configuration differ between rows; compare complete configurations."
+}

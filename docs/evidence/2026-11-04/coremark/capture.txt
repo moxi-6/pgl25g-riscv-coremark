@@ -1,0 +1,15 @@
+2K performance run parameters for coremark.
+CoreMark Size    : 666
+Total ticks      : 398164697
+Total time (secs): 15
+Iterations/Sec   : 133
+Iterations       : 2000
+Compiler version : GCC14.2.0
+Compiler flags   : -march=rv32i_zba_zbb_zmmul -mabi=ilp32 -mrelax -msmall-data-limit=0 -O3 -flto -finline-limit=1000 -ffreestanding -fno-builtin -fno-pic -fno-pie -fno-stack-protector -ffunction-sections -fdata-sections -fno-asynchronous-unwind-tables -Wall -Wextra -Werror -Wno-error=maybe-uninitialized -I. -Icoremark/
+Memory location  : STATIC
+seedcrc          : 0xe9f5
+[0]crclist       : 0xe714
+[0]crcmatrix     : 0x1fd7
+[0]crcstate      : 0x8e3a
+[0]crcfinal      : 0x4983
+Correct operation validated. See readme.txt for run and reporting rules.

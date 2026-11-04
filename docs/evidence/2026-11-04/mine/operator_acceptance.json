@@ -1,0 +1,15 @@
+{
+  "date": "2026-11-04",
+  "target": "mine",
+  "board": "ATK-L50 / PGL25G",
+  "evidence_type": "operator_confirmation",
+  "result": "accepted",
+  "display_and_controls": "normal",
+  "scope": "Displayed minesweeper interface and interactive operation after SRAM loading.",
+  "bitstream_sha256": "3ba1897f9f0cc094daf09e28bd918bb781e4c6b70fede2801880c1308ad36f86",
+  "independent_machine_evidence": [
+    "capture.txt",
+    "program_result.json"
+  ],
+  "source": "Board operator confirmation recorded on 2026-11-04"
+}

@@ -211,6 +211,10 @@ module gt9147_touch #(
                     end
 
                     S_RELEASE: begin
+                        // Address selection is latched after RESET rises.
+                        // Release INT before scanning so the controller can
+                        // subsequently drive its interrupt output safely.
+                        tp_int_oe <= 1'b0;
                         if (delay_cnt >= ms_cycles(24'd60)) begin
                             delay_cnt <= 0;
                             // Read the four product-ID bytes at 0x8140.

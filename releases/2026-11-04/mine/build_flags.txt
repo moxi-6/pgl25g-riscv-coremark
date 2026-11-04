@@ -1,0 +1,1 @@
+-march=rv32i -mabi=ilp32 -mno-relax -msmall-data-limit=0 -O2  -ffreestanding -fno-builtin -fno-pic -fno-pie -fno-stack-protector -ffunction-sections -fdata-sections -fno-asynchronous-unwind-tables -Wall -Wextra -Werror -I. 

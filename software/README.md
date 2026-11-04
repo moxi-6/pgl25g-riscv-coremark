@@ -1,62 +1,54 @@
 # 裸机固件构建与启动环境
 
-2026-10-19 已定位本机 Ubuntu/WSL 中的 `riscv64-unknown-elf-gcc 14.2.0`，并从源码生成两份 RV32I/ILP32 固件。工具名前缀中的 64 不代表生成 64 位程序；构建明确使用 `-march=rv32i -mabi=ilp32`。
+固件使用 RISC-V GCC/binutils、GNU Make 和 Python 3，遵循 ILP32 ABI。工具名前缀 `riscv64-unknown-elf-` 同时支持生成 RV32 程序；实际指令集由 `-march` 指定。
 
-## Windows 构建入口
+## 构建
 
-在桌面 `FPGA项目` 根目录运行：
+以下 PowerShell 命令在项目根目录运行：
 
 ```powershell
-# 编译主演示和 C 运行环境测试，生成并校验全部产物
-& .\fpga_riscv_starter\scripts\build_firmware.ps1 -Rebuild
+# 扫雷：RV32I、16 KiB RAM，同时生成相同配置的仿真固件
+./scripts/build_firmware.ps1 -App mine -Isa rv32i -RamBytes 16384 -Rebuild
 
-# 一条命令完成重建和 12 项 RTL/软件集成仿真
-& .\fpga_riscv_starter\scripts\run_iverilog.ps1 -RebuildFirmware
+# 跑分：与 atk_l50_top 的扩展、8 KiB RAM 配置匹配
+./scripts/build_firmware.ps1 -App coremark -Isa rv32i_zba_zbb_zmmul -RamBytes 8192 -Opt '-O3' -Relax 1 -ExtraCflags '-flto -finline-limit=1000' -Rebuild
+
+# 已构建固件的系统回归与扫雷整机验证
+./scripts/run_iverilog.ps1
+python scripts/run_mine_checks.py
 ```
 
-入口使用现有 WSL Ubuntu、GNU Make、RISC-V GCC/binutils 和 Python 3，不需要 Windows 版 make。可通过 `-WslDistro`、`-RiscvPrefix` 指定其他已安装的环境；`-App main`、`-App runtime_test` 或 `-App perf_test` 单独构建，默认构建全部三个。小程序每次均重新编译，避免切换 APP 或工具链后误用旧 ELF。
-
-在 Linux/WSL 的 `software` 目录也可直接运行：
+Windows 入口调用 WSL 中的工具链，可通过 `-WslDistro` 和 `-RiscvPrefix` 指定安装。Linux/WSL 可在本目录直接调用 Makefile，例如：
 
 ```sh
-make RISCV_PREFIX=riscv64-unknown-elf-
-make RISCV_PREFIX=riscv64-unknown-elf- APP=runtime_test.c BUILD_DIR=build/runtime_test
-python3 check_firmware_guards.py
+make RISCV_PREFIX=riscv64-unknown-elf- APP=mine.c BUILD_DIR=build/mine \
+  EXTRA_SRCS=coremark/softmath.c MARCH=rv32i RAM_BYTES=16384
 ```
 
-`run_iverilog.ps1` 不加 `-RebuildFirmware` 时只使用现有 HEX 做仿真，并不会重编译。缺少任一所需 HEX 时完整回归失败；`-SkipSoc` 只运行 8 项不依赖固件的测试。
+`-App coremark` 生成自动校准迭代数的板载镜像，以及 `ITERATIONS=1` 的仿真镜像。单轮仿真检查 CRC 与周期；正式成绩须来自至少10秒的实板运行。时钟配置来自 `coremark/board_coremark_config.h`，必须与板级顶层实际时钟一致。
 
-## 地址与装载
+## 存储与启动
 
-| 地址 | 当前用途 |
+| 区域 | 地址与用途 |
 |---|---|
-| 指令空间 `0x00000000–0x00003fff` | 16 KiB ROM，包括代码和 RAM 数据初值镜像 |
-| 数据空间 `0x00000000–0x00003fff` | 16 KiB RAM；链接器当前使用上半区 `0x2000–0x3fff` |
-| `0x10000000` | GPIO，低 8 位有效，四路物理 LED 只观察低 4 位 |
-| `0x10000004` | UART，低字节写入发送，读 bit0=ready |
-| `0x10000010/14` | 64 位周期计数低/高字，只读 |
-| `0x10000018/1c` | 64 位已提交指令计数低/高字，只读 |
-| `0x10000020` | 配置时钟频率（Hz），只读，不代表实际频率测量 |
-| 数据空间 `0x20000000–0x20003fff` | 同一 ROM 的只读数据映射，供启动代码读取初值；写入忽略 |
+| 指令 ROM | `0x00000000–0x0000ffff`，64 KiB，保存代码与数据初值 |
+| RAM | 以 `0x40000000` 为基址，长度由 `RAM_BYTES` 指定；低地址保留同一 RAM 的别名 |
+| ROM 数据窗口 | `0x20000000–0x2000ffff`，供启动程序复制数据初值 |
+| GPIO / UART / KEY | `0x10000000` / `0x10000004` / `0x10000008` |
+| 周期 / 提交计数 | `0x10000010/14` / `0x10000018/1c`，64位低字／高字 |
+| 配置频率 | `0x10000020`，Hz；是设计配置值，不是频率测量结果 |
+| 视频帧计数 | `0x10000044` |
+| 触摸寄存器 | `0x10000054–0x10000060` |
+| 扫雷状态 / 提交 | `0x100000a0–0x100000dc` / `0x100000e0` |
 
-链接脚本把 `.rodata/.srodata/.data/.sdata` 共同放入 RAM 的 `.data` 输出段，并用 `AT> ROM` 在 ROM 保存初值。`start.S` 通过 ROM 数据映射逐字复制到 RAM，然后清零 `.bss/.sbss/COMMON`，最后调用 `main`。每次复位均重新执行，因此字符串、带初值全局变量和零初始化变量可正确恢复。
+链接器把常量和带初值数据放入 RAM，在 ROM 保存装载副本。`start.S` 从 ROM 数据窗口复制初值、清零 BSS、设置栈后调用 `main`。复位会重新执行启动过程。栈顶为 RAM 基址加容量，保持16字节对齐，链接器保留顶部1 KiB；此预留不是运行时溢出检测。
 
-常量在 C 语言中仍为只读对象，但物理位置为 RAM，没有硬件写保护。RAM 阵列本身不复位，启动代码只处理已分配的数据区。栈顶为 `0x4000`，按 ABI 保持 16 字节对齐；顶部预留 1 KiB 栈，静态数据侵占时链接失败。此预留不是运行时栈溢出保护。
+扫雷使用16 KiB RAM；跑分发布配置使用8 KiB。修改 RAM、ISA 或频率后应重建对应固件并执行验证，不能复用不同配置的镜像。
 
-## 程序及产物
+## 输出与校验
 
-| 程序 | 产物目录 | 本轮 ROM 大小 | 行为 |
-|---|---|---|---|
-| `main.c` | `software/build/` | 172 字节，含 8 字节初始化数据 | 常量字符串输出 `OK\r\n`，GPIO `0x5a → 0xa5` |
-| `runtime_test.c` | `software/build/runtime_test/` | 396 字节，含 28 字节初始化数据 | 验证初值、16 字节 BSS，修改变量后输出 `RUNTIME OK\r\n`，GPIO 为 `0xa5` |
-| `perf_test.c` | `software/build/perf_test/` | 448 字节，含 12 字节初始化数据 | 读取周期/提交数，执行校验和循环，输出 `PERF OK\r\n`；非 CoreMark |
+每个构建目录包含 ELF、BIN、32位字 HEX、反汇编、链接 map、编译选项、工具版本和 `firmware.json`。清单记录源文件与产物的 SHA256。校验器检查 ELF32／ILP32、容量、栈对齐、装载布局及指令编码，仅接受声明配置支持的 RV32I、Zmmul、Zba/Zbb 指令。
 
-性能计数器的复位、回卷、停机和计时开销语义见 `docs/性能计数与基准测试.md`；软件接口为 `perf.h`。固件来源清单也记录头文件哈希。
+`prepare_board.ps1` 会复核源文件和产物哈希。双发射取指使用 `.hex.even` 和 `.hex.odd` 两份 ROM 初始化文件，由 `scripts/split_imem_banks.py` 从同一 HEX 生成。
 
-每个目录包含 ELF、BIN、按小端 32 位字编码的 HEX、反汇编、map、工具版本及 `firmware.json`。JSON 记录源文件和 ELF/BIN/HEX 的 SHA256。验证脚本检查 ELF32/RISC-V/ILP32、代码指令编码、ROM/RAM 容量、栈对齐、数据装载地址和 ELF/BIN 一致性，拒绝压缩指令、M 扩展以及当前 CPU 不支持的系统指令。
-
-两份固件重复编译后的 ELF/BIN/HEX 六个校验值一致；记录在根目录 `交接记录/2026-10-19_固件重复构建校验.json`。编译检查不能替代完整 ISA 一致性测试。
-
-板级源码包包含主演示固件和构建来源；`prepare_board.ps1 -Target cpu` 会校验源文件及产物哈希，源代码修改后必须先重新构建。PDS 在源码包根目录中创建工程，使 `software/build/firmware.hex` 能被找到，并检查同步 ROM 的双读口及初始化是否被实际综合工具正确处理。
-
-目前为 freestanding 裸机环境，尚未提供完整 libc、堆分配、异常/中断、CSR 或 CoreMark 支持。不能据此宣称任意 C/C++ 工程均可直接运行。
+环境为 freestanding 裸机，不提供完整 libc、动态堆、特权 CSR、异常向量或中断服务框架。应用应使用已有 MMIO 和运行时接口。CoreMark 上游文件及显示字库的许可范围见 [第三方说明](../docs/THIRD_PARTY_NOTICES.md)。

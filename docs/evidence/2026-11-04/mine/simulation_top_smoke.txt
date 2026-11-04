@@ -1,0 +1,2 @@
+[PASS] mine_top_smoke touch_ready=1 int_strap=1 lcd_reset=1 cycles=1108837
+sim/tb_mine_top_smoke.sv:34: $finish called at 11088370000 (1ps)

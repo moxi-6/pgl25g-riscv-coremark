@@ -45,8 +45,30 @@ function Get-CpuImplementationEvidence {
             throw "CPU post-route timing failed or has unsatisfied clock constraints. Inspect $TimingPath and $TimingLogPath."
         }
         $ClockSection = [regex]::Match($TimingText, '(?s)Clock Summary:.*?={10,}').Value
-        $ClockRows = [regex]::Matches($ClockSection, '(?m)^\s*(\S+)\s+([\d.]+)\s+\{[^}]+\}\s+\S+\s+(\d+)\s+\d+\s+\{')
+        $ClockRows = [regex]::Matches($ClockSection, '(?m)^\s*(\S+)\s+([\d.]+)\s+\{[^}]+\}\s+(?:Declared|Generated(?:\s+\([^)]*\))?)\s+(\d+)\s+\d+\s+\{')
         $ActiveClocks = @($ClockRows | Where-Object { [int]$_.Groups[3].Value -gt 0 } | ForEach-Object { $_.Groups[1].Value })
+        $ClockDetails = @($ClockRows | ForEach-Object { [ordered]@{
+            name=$_.Groups[1].Value; period_ns=[double]$_.Groups[2].Value; clock_loads=[int]$_.Groups[3].Value
+        } })
+        $ExpectedCpuClock = $null
+        $InputsPath = Join-Path $BuildDirectory 'run_inputs.json'
+        if ($Top -eq 'atk_l50_top' -and (Test-Path -LiteralPath $InputsPath)) {
+            $SavedInputs = Get-Content -LiteralPath $InputsPath -Raw | ConvertFrom-Json
+            if ($SavedInputs.cpu_features.CLOCK_HZ) {
+                $Features = $SavedInputs.cpu_features
+                if ($Features.INPUT_CLOCK_HZ -ne $Features.CLOCK_HZ * $Features.CPU_CLOCK_DIV) { throw 'Saved CPU input clock/divider/frequency disagree.' }
+                $ExpectedCpuClock = if ($Features.CPU_CLOCK_DIV -eq 1) { 'sys_clk' } else { 'cpu_clk' }
+                foreach ($ClockSpec in @(@('sys_clk', $Features.INPUT_CLOCK_HZ), @($ExpectedCpuClock, $Features.CLOCK_HZ))) {
+                    $MatchingClock = @($ClockDetails | Where-Object { $_.name -eq $ClockSpec[0] })
+                    if ($MatchingClock.Count -ne 1 -or $MatchingClock[0].clock_loads -le 0 -or
+                        [math]::Abs($MatchingClock[0].period_ns - 1.0e9/[double]$ClockSpec[1]) -gt 0.0001) {
+                        throw "CPU report clock $($ClockSpec[0]) must have real loads and match configured $($ClockSpec[1]) Hz."
+                    }
+                }
+                $Evidence.cpu_clock_hz = $Features.CLOCK_HZ
+                $Evidence.cpu_clock_name = $ExpectedCpuClock
+            }
+        }
         if (-not $ActiveClocks.Count -or
             $TimingText -notmatch '(?m)^Startpoint\s*:\s*\S+' -or
             $TimingText -notmatch '(?m)^Endpoint\s*:\s*\S+' -or
@@ -60,17 +82,27 @@ function Get-CpuImplementationEvidence {
                 $Section = [regex]::Match($TimingText, ('(?s)' + [regex]::Escape($Heading) + '.*?={10,}')).Value
                 $Rows = [regex]::Matches($Section, '(?m)^\s*\S+\s+\S+\s+(-?[\d.]+)\s+(-?[\d.]+)\s+(\d+)\s+(\d+)\s*$')
                 $Endpoints = 0
+                $CpuEndpoints = 0
                 foreach ($Row in $Rows) {
                     if ([double]$Row.Groups[1].Value -lt 0 -or [int]$Row.Groups[3].Value -ne 0) {
                         throw "CPU timing violation in $Heading Inspect $TimingPath."
                     }
                     $Endpoints += [int]$Row.Groups[4].Value
+                    $ClockPair = $Row.Value.Trim() -split '\s+'
+                    if ($ExpectedCpuClock -and $ClockPair[0] -eq $ExpectedCpuClock -and $ClockPair[1] -eq $ExpectedCpuClock) {
+                        $CpuEndpoints += [int]$Row.Groups[4].Value
+                    }
                 }
                 if ($Endpoints -le 0) { throw "CPU timing summary has no constrained endpoints: $Heading" }
                 $CheckedSummaries["${Kind}_${Corner}_endpoints"] = $Endpoints
+                if ($ExpectedCpuClock) {
+                    if ($CpuEndpoints -le 0) { throw "No actual CPU-clock endpoints in $Heading" }
+                    $CheckedSummaries["${Kind}_${Corner}_cpu_endpoints"] = $CpuEndpoints
+                }
             }
         }
         $Evidence.active_clocks = $ActiveClocks
+        $Evidence.clock_details = $ClockDetails
         $Evidence.constrained_endpoints = $CheckedSummaries
         $Evidence.timing_report_sha256 = (Get-FileHash -LiteralPath $TimingPath).Hash
         $Evidence.timing_log_sha256 = (Get-FileHash -LiteralPath $TimingLogPath).Hash
@@ -214,6 +246,13 @@ try {
         $Output | Set-Content -LiteralPath (Join-Path $ProjectRoot "build/${Target}_$LogName") -Encoding utf8
         if ($BitExit -ne 0 -or ($BitOutput -match '^\s*E:|Check license failed') -or -not ($BitOutput -match 'Process "Generate Bitstream" done\.')) {
             throw "Bitstream generation did not complete; see $Destination/$LogName."
+        }
+        # PDS may refresh upstream reports while generating the bitstream.
+        # Revalidate the final artifacts, then bind evidence to the exact bytes
+        # that are about to enter the release, not the earlier Timing snapshot.
+        if ($Target -in @('cpu','mine')) {
+            $ImplementationEvidence = Get-CpuImplementationEvidence -BuildDirectory $Destination -Top $env:L50_TOP_MODULE -RequireTiming
+            $ImplementationEvidence | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $Destination 'implementation_checks.json') -Encoding utf8
         }
         # One bitstream differs from another only by the firmware baked into IMEM,
         # so packages for different apps must not share a directory: whichever ran

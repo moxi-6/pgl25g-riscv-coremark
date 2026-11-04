@@ -1,0 +1,27 @@
+{
+  "target": "cpu",
+  "stage": "Bitstream",
+  "device": "PGL25G",
+  "constraint_profile": "Vcc33",
+  "firmware_app": "coremark",
+  "firmware_isa": "rv32i_zba_zbb_zmmul",
+  "compiler_flags": "-march=rv32i_zba_zbb_zmmul -mabi=ilp32 -mrelax -msmall-data-limit=0 -O3 -flto -finline-limit=1000 -ffreestanding -fno-builtin -fno-pic -fno-pie -fno-stack-protector -ffunction-sections -fdata-sections -fno-asynchronous-unwind-tables -Wall -Wextra -Werror -Wno-error=maybe-uninitialized -I. -Icoremark/",
+  "cpu_features": {
+    "ZMMUL_ENABLE": true,
+    "BITMANIP_ENABLE": true,
+    "DUAL_ISSUE": true,
+    "FAST_DMEM": true,
+    "PIPELINE_DECODE": false,
+    "BTB_ENTRIES": 16,
+    "MUL_CYCLES": 2,
+    "CLOCK_HZ": 25000000,
+    "INPUT_CLOCK_HZ": 50000000,
+    "CPU_CLOCK_DIV": 2,
+    "BAUD": 115200,
+    "DMEM_WORDS": 2048
+  },
+  "constraint_sha256": "F173AB4C0F8EA21BC34F2F975037EA0E2886FDC572E7ED2B8D9CA65B4F7E23F9",
+  "combined_source_sha256": "CC69B170C87044D55E3D1AB7378941326A545BB3C6C1DA4F99C6CE474106E0E6",
+  "firmware_hex_sha256": "D4C4F7E8470A429E71CCE9A9E9F3A2EBDEE76B13B3E9D96D13BCDB2F4AEDAB4F",
+  "board_download_ready": false
+}

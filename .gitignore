@@ -26,9 +26,3 @@ Thumbs.db
 *.orig
 *.rej
 *~
-
-# 本机授权信息（含网卡 MAC / Host ID，不得公开）
-/docs/PDS本机授权申请信息.txt
-
-# 个人检索笔记（与作品无关）
-/docs/西安科技大学指导老师检索.md

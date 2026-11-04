@@ -1,0 +1,105 @@
+{
+  "source_hashes": {
+    "rtl/core/rv32i_pkg.sv": "7d8e9e918744e106ff433a3799d634121ce73ed0b5414569f72a32796f8537d3",
+    "rtl/core/rv32i_alu.sv": "6f135c37c1fada02690341226291a2f14615b1a6d069674f89c879d9bb46442c",
+    "rtl/core/rv32i_imm_gen.sv": "be8b8f58ea29e0466b9eff8a08aca8633ec97f90b1ed4be557a57c43d8565e99",
+    "rtl/core/rv32i_regfile.sv": "766ede77465bc3c1d68701918ede55107a2cdec1761121df7e5cfab588f8c61e",
+    "rtl/core/rv32i_decoder.sv": "d326ecfeadc50aa6f711ac2a812f2226b92b0c7564bc6b12df6ce26f3d8f4301",
+    "rtl/core/rv32i_core_3stage.sv": "fd3d39a20c4ecffd009832bae71e696be74c2c302486deb5482422eb0af5ade0",
+    "rtl/periph/uart_tx.sv": "a5d89abde7bc5de09647217f9999afd8cf805aeca2cf18ddd15c0cb1cdf89be1",
+    "rtl/soc/sync_imem.sv": "ad11d3ca35b2d7e7b95d189b25a882ef49060a8093459dcc0816283a327f9aae",
+    "rtl/soc/sync_dmem.sv": "e63e6fb5f3282778351270a1b7330cc53c36bee5fd1b5e1f695b943b2ee13932",
+    "rtl/soc/rv32i_soc.sv": "c6e0c864b1c07cbd2001579901588941250a669e2777034c714ea2dfb30c544e",
+    "rtl/top/reset_sync.sv": "9e369cafbeac0a163e6df58d1ae9a6f512a3c034fb37c24a156457fad1f8c14a",
+    "rtl/top/atk_l50_top.sv": "cd1eb952e2093050b7bf0cb9eb5cf37812acee455b52922e4ee2dc9c458d753a"
+  },
+  "debug_probe_width": 92,
+  "fields": [
+    {
+      "name": "commit_pc",
+      "lsb": 0,
+      "width": 32
+    },
+    {
+      "name": "commit_instr",
+      "lsb": 32,
+      "width": 32
+    },
+    {
+      "name": "commit_valid",
+      "lsb": 64,
+      "width": 1
+    },
+    {
+      "name": "ex_valid",
+      "lsb": 65,
+      "width": 1
+    },
+    {
+      "name": "ex_wait",
+      "lsb": 66,
+      "width": 1
+    },
+    {
+      "name": "redirect",
+      "lsb": 67,
+      "width": 1
+    },
+    {
+      "name": "dmem_valid",
+      "lsb": 68,
+      "width": 1
+    },
+    {
+      "name": "dmem_ready",
+      "lsb": 69,
+      "width": 1
+    },
+    {
+      "name": "dmem_write",
+      "lsb": 70,
+      "width": 1
+    },
+    {
+      "name": "imem_valid",
+      "lsb": 71,
+      "width": 1
+    },
+    {
+      "name": "imem_ready",
+      "lsb": 72,
+      "width": 1
+    },
+    {
+      "name": "imem_rvalid",
+      "lsb": 73,
+      "width": 1
+    },
+    {
+      "name": "fetch_valid",
+      "lsb": 74,
+      "width": 1
+    },
+    {
+      "name": "fetch_take",
+      "lsb": 75,
+      "width": 1
+    },
+    {
+      "name": "cycle_low",
+      "lsb": 76,
+      "width": 8
+    },
+    {
+      "name": "retire_low",
+      "lsb": 84,
+      "width": 8
+    }
+  ],
+  "observation_delay_cycles": 1,
+  "depth": 512,
+  "firmware_hex_sha256": "6e2ec4015e01908bbf10eb5b7bc2d738d07f1bee1675ea62821443b09e6d06c3",
+  "constraint_sha256": "447999cfdd8bb3891bc44cbc6949e37e2dd587a55fc37e9a853ed22f78c6cdad",
+  "combined_debug_source_sha256": "1304c2b5a58c579514c5fe77e339567f2135c34bd9fc631fd5cc3a747a592e9a",
+  "description": "Separate instrumented image; functional RTL files unchanged."
+}

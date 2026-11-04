@@ -1,0 +1,56 @@
+{
+  "status": "PASS",
+  "label": "cpu_r4_o3_lto_inline_b_20261104",
+  "metrics": {
+    "cycles": 296413,
+    "retired": 254839,
+    "fetch_empty": 11391,
+    "ex_empty": 22782,
+    "data_wait": 0,
+    "redirects": 11391,
+    "mul_retired": 0,
+    "loads": 49319,
+    "stores": 11167,
+    "mul_calls": 0,
+    "mul_ex_cycles": 0,
+    "mul_redirects": 0,
+    "branch_redirects": 8864,
+    "jal_redirects": 2525,
+    "jalr_redirects": 2,
+    "mul_wait": 18792,
+    "hw_muls": 9396,
+    "cpi": 1.1631382951589042,
+    "projected_coremark_per_mhz": 3.373671195257968
+  },
+  "symbols": {
+    "profile_start_pc": 27664,
+    "profile_stop_pc": 27704,
+    "profile_stop_end": 27744,
+    "profile_mul_start": 0,
+    "profile_mul_end": 0
+  },
+  "source_sha256": {
+    "<project>/rtl/core/rv32i_pkg.sv": "76282e0563a5f2ccd6428d0f3352bdbe3dfc1938b27dc6ee37c475910f9e3611",
+    "<project>/rtl/core/rv32i_alu.sv": "2036d239f6f5f0edc9a0e9cbd3ff6b7ab007f3362d1a53f34dd89ecdeab1384c",
+    "<project>/rtl/core/rv32i_imm_gen.sv": "be8b8f58ea29e0466b9eff8a08aca8633ec97f90b1ed4be557a57c43d8565e99",
+    "<project>/rtl/core/rv32i_regfile.sv": "766ede77465bc3c1d68701918ede55107a2cdec1761121df7e5cfab588f8c61e",
+    "<project>/rtl/core/rv32i_decoder.sv": "eed578f34dd431d61ba16b18b33e382d749ca0d68e5702b5d2a42742bad8ce54",
+    "<project>/rtl/core/rv32i_core_3stage.sv": "49ee80906d8b5927471e01f124d7ce87edec49a56da92c92e25befd08780635d",
+    "<project>/rtl/periph/uart_tx.sv": "a5d89abde7bc5de09647217f9999afd8cf805aeca2cf18ddd15c0cb1cdf89be1",
+    "<project>/rtl/soc/sync_imem.sv": "075d5bda79fb165a1bec879fb49ace397f8ae14efd63d95acc21601b31efdfd7",
+    "<project>/rtl/soc/sync_dmem.sv": "1585c970ed65039efe9f3e94932f958ce591c8e8ab72e61793e452fafc1230e5",
+    "<project>/rtl/soc/rv32i_soc.sv": "4bfcafcc342bdd8f36e90f06800744ebf41e85087abe803f22d315290df6b900",
+    "<project>/rtl/top/reset_sync.sv": "9e369cafbeac0a163e6df58d1ae9a6f512a3c034fb37c24a156457fad1f8c14a",
+    "<project>/rtl/top/atk_l50_top.sv": "785f14e927970f1c8e7887e64aa033f1c7b832fdbb99b4c2f7c29e2b2b79e580",
+    "<project>/sim/tb_coremark.sv": "9d604855852e00550dd81733e94ee3fdb872b16c9f99153b75c5e822347854a1"
+  },
+  "firmware_hex_sha256": "4795f8086f913c3adaa6186fe6becbd3e2fee74db8d956af7660ec23721fd2c2",
+  "configuration": {
+    "zmmul": true,
+    "decode_pipeline": 0,
+    "fast_dmem": true,
+    "bitmanip": true,
+    "validation": false
+  },
+  "scope": "Single-iteration simulation with matching CRCs; independent stall counts overlap; board score requires >=10s hardware run."
+}

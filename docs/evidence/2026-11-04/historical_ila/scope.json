@@ -1,0 +1,10 @@
+{
+  "captured_date": "2026-11-01",
+  "evidence_type": "hardware_ila",
+  "configuration": "Earlier single-issue CPU with debug instrumentation",
+  "samples": 512,
+  "channels": 92,
+  "valid_commit_samples": 149,
+  "scope": "Historical proof of running CPU and advancing counters. This is not an ILA capture of the 2026-11-04 dual-issue release.",
+  "bitstream_sha256": "15037eb9f8cbb28a7893c187e508aa25e712d33520eda3522ce351ffba3747cb"
+}

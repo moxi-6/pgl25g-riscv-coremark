@@ -1,0 +1,14 @@
+{
+  "started_at": "2026-11-04T17:00:25.1016502+08:00",
+  "completed_at": "2026-11-04T17:01:31.8794067+08:00",
+  "port": "<board-uart>",
+  "baud": 115200,
+  "format": "8N1",
+  "received_bytes": 197,
+  "elapsed_seconds": 66.7675453,
+  "completion_marker": "level 1",
+  "marker_received": true,
+  "failure": null,
+  "complete_line_required": true,
+  "scope": "Raw receive only; no transmit, DTR/RTS assertion, or board reset. Does not validate benchmark results."
+}

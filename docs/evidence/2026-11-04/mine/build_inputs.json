@@ -1,0 +1,18 @@
+{
+  "target": "mine",
+  "stage": "Bitstream",
+  "device": "PGL25G",
+  "constraint_profile": "Vcc33",
+  "firmware_app": "mine",
+  "firmware_isa": "rv32i",
+  "compiler_flags": "-march=rv32i -mabi=ilp32 -mno-relax -msmall-data-limit=0 -O2  -ffreestanding -fno-builtin -fno-pic -fno-pie -fno-stack-protector -ffunction-sections -fdata-sections -fno-asynchronous-unwind-tables -Wall -Wextra -Werror -I.",
+  "cpu_features": null,
+  "clock_hz": 50000000,
+  "input_clock_hz": 50000000,
+  "cpu_clock_div": 1,
+  "firmware_ram_bytes": 16384,
+  "constraint_sha256": "1C670D2C5E29A1EF7BC5B0B29536658861763FEF1CA7FB339C3E71EB1C331F3F",
+  "combined_source_sha256": "88226E753EF100D8EACA2ADCB123105C45BD7DC3B3334D5E3ECDB173A056D8E7",
+  "firmware_hex_sha256": "FFB6DA9163885DD4C7579445E21C7E79AD7A83D47DE0C8583697BAE1B9FCEC8B",
+  "board_download_ready": false
+}

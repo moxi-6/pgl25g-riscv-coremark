@@ -11,6 +11,8 @@ p.add_argument('--variants', nargs='+', default=['o3_relax', 'o3', 'os_relax', '
 p.add_argument('--bitmanip',action='store_true')
 p.add_argument('--fast',action='store_true')
 p.add_argument('--validation',action='store_true')
+p.add_argument('--ram-bytes',type=int,choices=(8192,16384),default=16384)
+p.add_argument('--build-only',action='store_true')
 args = p.parse_args()
 root = Path(__file__).resolve().parents[1]
 sw = root / 'software'
@@ -36,6 +38,7 @@ for name in args.variants:
     old_stamp = manifest.stat().st_mtime_ns if manifest.exists() else None
     command = ['make','-C',wsl_sw,'APP=coremark/core_main.c',
                f'BUILD_DIR=build/coremark_{name}_sim',f'MARCH={isa}',
+               f'RAM_BYTES={args.ram_bytes}',
                f'OPT={opt}',f'RELAX={relax}',f'EXTRA_CFLAGS={extra}',
                f'EXTRA_SRCS={sources}',f'EXTRA_HDRS={headers}',
                'DEFS=-DITERATIONS=1'+(' -DVALIDATION_RUN=1' if args.validation else ''),'-B']
@@ -48,6 +51,9 @@ for name in args.variants:
     else:
         fw = json.loads(manifest.read_text(encoding='utf-8'))
         assert fw['isa'] == isa
+        if args.build_only:
+            print(f'{name}: BUILD_PASS {fw["rom_bytes"]} bytes RAM={fw["ram_bytes"]}',flush=True)
+            continue
         print(f'{name}: built {fw["rom_bytes"]} bytes, profiling', flush=True)
         options=(['--bitmanip'] if args.bitmanip else [])+(['--fast-dmem','--decode-pipeline','0'] if args.fast else [])
         if args.validation: options+=['--validation']

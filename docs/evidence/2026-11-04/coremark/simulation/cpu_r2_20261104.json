@@ -1,0 +1,41 @@
+{
+  "status": "PASS",
+  "label": "cpu_r2_20261104",
+  "metrics": {
+    "cycles": 993871,
+    "retired": 870108,
+    "fetch_empty": 27135,
+    "ex_empty": 54270,
+    "data_wait": 69493,
+    "redirects": 27135,
+    "mul_retired": 544552,
+    "loads": 54844,
+    "stores": 14652,
+    "cpi": 1.1422386646255407,
+    "projected_coremark_per_mhz": 1.006166796294489
+  },
+  "symbols": {
+    "profile_start_pc": 9384,
+    "profile_stop_pc": 9424,
+    "profile_stop_end": 9464,
+    "profile_mul_start": 11304,
+    "profile_mul_end": 11352
+  },
+  "source_sha256": {
+    "<project>/rtl/core/rv32i_pkg.sv": "7d8e9e918744e106ff433a3799d634121ce73ed0b5414569f72a32796f8537d3",
+    "<project>/rtl/core/rv32i_alu.sv": "6f135c37c1fada02690341226291a2f14615b1a6d069674f89c879d9bb46442c",
+    "<project>/rtl/core/rv32i_imm_gen.sv": "be8b8f58ea29e0466b9eff8a08aca8633ec97f90b1ed4be557a57c43d8565e99",
+    "<project>/rtl/core/rv32i_regfile.sv": "766ede77465bc3c1d68701918ede55107a2cdec1761121df7e5cfab588f8c61e",
+    "<project>/rtl/core/rv32i_decoder.sv": "d326ecfeadc50aa6f711ac2a812f2226b92b0c7564bc6b12df6ce26f3d8f4301",
+    "<project>/rtl/core/rv32i_core_3stage.sv": "3c5bd8963b5656a2e20c6850db00f4e378dc45a9f6c0cf7467fa5e8d692ab38f",
+    "<project>/rtl/periph/uart_tx.sv": "a5d89abde7bc5de09647217f9999afd8cf805aeca2cf18ddd15c0cb1cdf89be1",
+    "<project>/rtl/soc/sync_imem.sv": "ad11d3ca35b2d7e7b95d189b25a882ef49060a8093459dcc0816283a327f9aae",
+    "<project>/rtl/soc/sync_dmem.sv": "e63e6fb5f3282778351270a1b7330cc53c36bee5fd1b5e1f695b943b2ee13932",
+    "<project>/rtl/soc/rv32i_soc.sv": "1e0f0ffce9fd0c04cd7775daab1cdf77e9eb86750e2d667d85b289bb3d2f1562",
+    "<project>/rtl/top/reset_sync.sv": "9e369cafbeac0a163e6df58d1ae9a6f512a3c034fb37c24a156457fad1f8c14a",
+    "<project>/rtl/top/atk_l50_top.sv": "d366c55450f8531bc3dadefbdd2857a9b3754c5af6685cf2d2114adcefa6bdcc",
+    "<project>/sim/tb_coremark.sv": "53893d9f47011f13217ac7cd30c86e22c04235f97b749e8850b830769ce7ec40"
+  },
+  "firmware_hex_sha256": "df6f60eca657d0c1397fff344e2599198eaaefe658e78886eaad567b08777985",
+  "scope": "Single-iteration simulation with matching CRCs; independent stall counts overlap; board score requires >=10s hardware run."
+}

@@ -1,0 +1,20 @@
+[PROFILE] cycles=296413 retired=254839 fetch_empty=11391 ex_empty=22782 data_wait=0 redirects=11391 mul_retired=0 loads=49319 stores=11167 mul_calls=0 mul_ex_cycles=0 mul_redirects=0 branch_redirects=8864 jal_redirects=2525 jalr_redirects=2 mul_wait=18792 hw_muls=9396
+UART[0] 2K performance run parameters for coremark.
+UART[1] CoreMark Size    : 666
+UART[2] Total ticks      : 296413
+UART[3] Total time (secs): 0
+UART[4] ERROR! Must execute for at least 10 secs for a valid result!
+UART[5] Iterations       : 1
+UART[6] Compiler version : GCC14.2.0
+UART[7] Compiler flags   : -march=rv32i_zba_zbb_zmmul -mabi=ilp32 -mrelax -msmall-data-limit=0 -O3 -flto
+UART[8] Memory location  : STATIC
+UART[9] seedcrc          : 0xe9f5
+UART[10] [0]crclist       : 0xe714
+UART[11] [0]crcmatrix     : 0x1fd7
+UART[12] [0]crcstate      : 0x8e3a
+UART[13] [0]crcfinal      : 0xe714
+UART[14] Errors detected
+[INFO] 'Correct operation validated' present: 0
+[PASS] coremark size=666 seedcrc=0x0000e9f5 crclist=0x0000e714 crcmatrix=0x00001fd7 crcstate=0x00008e3a ticks=296413 lines=14
+[STAT] coremark cycles=396961 retired=284544 cpi=1.3951
+<project>/sim/tb_coremark.sv:407: $finish called at 3969650000 (1ps)

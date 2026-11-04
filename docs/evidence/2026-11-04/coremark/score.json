@@ -1,0 +1,43 @@
+{
+  "seedcrc": "0xe9f5",
+  "profile": "2K performance",
+  "coremark_size": 666,
+  "iterations": 2000,
+  "total_ticks": 398164697,
+  "clock_hz": 25000000,
+  "seconds": 15.92658788,
+  "reported_seconds": 15.0,
+  "crclist": "0xe714",
+  "crcmatrix": "0x1fd7",
+  "crcstate": "0x8e3a",
+  "crcfinal": "0x4983",
+  "validated_line_present": true,
+  "coremark_score": 125.57617583057596,
+  "coremark_per_mhz": 5.023047033223039,
+  "lut_count": 11864,
+  "coremark_per_lut": 0.010584640579111258,
+  "checks": {
+    "complete_single_report": true,
+    "seedcrc_known": true,
+    "size_666": true,
+    "crclist_match": true,
+    "crcmatrix_match": true,
+    "crcstate_match": true,
+    "ran_at_least_10s": true,
+    "validated_line_present": true,
+    "no_errors": true
+  },
+  "errors": [],
+  "verdict": "PASS",
+  "evidence_kind": "BoardCapture",
+  "publishable": true,
+  "scope": "Report validation only. BoardCapture is caller-supplied provenance; this parser cannot authenticate hardware execution or measure clock frequency.",
+  "capture": "capture.txt",
+  "capture_sha256": "31db799c974b498ba57eac9f07182d0cb5a0ebd6a167516c7761f762dd121bfe",
+  "formula": {
+    "seconds": "total_ticks / clock_hz",
+    "coremark": "iterations * clock_hz / total_ticks",
+    "coremark_per_mhz": "iterations * 1000000 / total_ticks"
+  },
+  "printed_integer_rate_note": "HAS_FLOAT=0 prints whole seconds and an integer rate; exact score uses the raw tick count."
+}

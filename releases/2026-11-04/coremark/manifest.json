@@ -1,0 +1,57 @@
+{
+  "date": "2026-11-04",
+  "target": "cpu",
+  "application": "coremark",
+  "top": "atk_l50_top",
+  "device": "PGL25G",
+  "package": "MBG324",
+  "speed_grade": "-6",
+  "configuration": "SRAM",
+  "flash_written": false,
+  "programming_evidence": "docs/evidence/2026-11-04/coremark/program_result.json",
+  "runtime_evidence": "docs/evidence/2026-11-04/coremark/capture.txt",
+  "implementation_evidence": "docs/evidence/2026-11-04/coremark/implementation_checks.json",
+  "bitstream_sha256": "49740590a9e7192592eec30b49be8edafedc71640a731f8fb60a4ab0a01c3a47",
+  "files": [
+    {
+      "file": "atk_l50_top.sbit",
+      "bytes": 1007712,
+      "sha256": "49740590a9e7192592eec30b49be8edafedc71640a731f8fb60a4ab0a01c3a47"
+    },
+    {
+      "file": "atk_l50_top.smsk",
+      "bytes": 1007712,
+      "sha256": "9cc5284d33fc36bc63946ba46a63d533be8f47ac158a4dde78f091571e2f60be"
+    },
+    {
+      "file": "firmware.hex",
+      "bytes": 89605,
+      "sha256": "d4c4f7e8470a429e71cce9a9e9f3a2ebdee76b13b3e9d96d13bcdb2f4aedab4f"
+    },
+    {
+      "file": "build_flags.txt",
+      "bytes": 302,
+      "sha256": "91cacc7438ba5e041608456c8fb067718ceb9da621e42ee93c3dc951ef33fb4d"
+    },
+    {
+      "file": "firmware_manifest.json",
+      "bytes": 2808,
+      "sha256": "fa2327997de17c71ab5e3a2470584594bec32412552e0ae1736f29660b73cbfa"
+    },
+    {
+      "file": "firmware.hex.even",
+      "bytes": 81920,
+      "sha256": "09863ab55def25a5386af64358924ca4d9a6daae7e312572795485c08f3b4819"
+    },
+    {
+      "file": "firmware.hex.odd",
+      "bytes": 81920,
+      "sha256": "752d28421b83181a205c6e446e8e620ec01c82ec3de45a910dac3e628a7e5728"
+    }
+  ],
+  "rebuild": {
+    "firmware": "scripts/build_firmware.ps1 -App coremark -Isa rv32i_zba_zbb_zmmul -Opt '-O3' -Relax 1 -ExtraCflags '-flto -finline-limit=1000' -RamBytes 8192 -Rebuild",
+    "bitstream": "scripts/run_pds.ps1 -Target cpu -FirmwareApp coremark -ConstraintProfile Vcc33 -Stage Bitstream -WorkRoot <ascii-build-directory>",
+    "identity": "Firmware source hashes identify the build inputs. Placement and bitstream generation may vary between PDS runs."
+  }
+}

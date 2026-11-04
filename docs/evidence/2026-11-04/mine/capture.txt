@@ -1,0 +1,8 @@
+flag 3,5
+mines placed
+flag 4,7
+
+=== FPGA minesweeper / 8 stages ===
+KEY0 left KEY1 right KEY2 down KEY3 tap=open hold=flag
+Touch board to open; right button switches flag mode.
+== level 1 mines 10

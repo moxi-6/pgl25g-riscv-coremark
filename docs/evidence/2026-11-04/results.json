@@ -1,0 +1,32 @@
+{
+  "date": "2026-11-04",
+  "platform": "ATK-L50 / PGL25G / -6 / MBG324",
+  "coremark": {
+    "iterations": 2000,
+    "total_ticks": 398164697,
+    "clock_hz": 25000000,
+    "seconds": 15.92658788,
+    "coremark_score": 125.57617583057596,
+    "coremark_per_mhz": 5.023047033223039,
+    "coremark_per_lut": 0.010584640579111258,
+    "seedcrc": "0xe9f5",
+    "crclist": "0xe714",
+    "crcmatrix": "0x1fd7",
+    "crcstate": "0x8e3a",
+    "crcfinal": "0x4983",
+    "verdict": "PASS"
+  },
+  "mine": {
+    "stages": 8,
+    "simulation_assertions": 1882,
+    "simulation_cycles": 6257589,
+    "sram_readback_verified": true,
+    "operator_acceptance": "accepted",
+    "simulation_previews": "mine/simulation_*.png"
+  },
+  "evidence_scope": {
+    "coremark": "One measured performance-seed run lasting 15.92658788 s at a configured 25 MHz CPU clock.",
+    "mine": "Board boot UART, SRAM readback and operator acceptance; exhaustive eight-stage checks are simulation evidence.",
+    "timing": "PDS post-route reports; external LCD setup/hold budget is provisional and board skew was not measured."
+  }
+}

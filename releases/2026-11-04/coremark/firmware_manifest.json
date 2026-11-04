@@ -1,0 +1,50 @@
+{
+  "app": "coremark/core_main.c",
+  "isa": "rv32i_zba_zbb_zmmul",
+  "abi": "ilp32",
+  "entry": 0,
+  "rom_bytes": 39820,
+  "text_instructions": 9515,
+  "ram_bytes": 8192,
+  "ram_base": 1073741824,
+  "stack_reserved_bytes": 1024,
+  "ram_free_before_stack_bytes": 2728,
+  "data_bytes": 1760,
+  "bss_bytes": 2680,
+  "symbols": {
+    "__data_start": 1073741824,
+    "__data_end": 1073743584,
+    "__data_load_start": 536908972,
+    "__bss_start": 1073743584,
+    "__bss_end": 1073746264,
+    "_stack_top": 1073750016,
+    "_stack_bottom": 1073748992,
+    "__ram_size": 8192
+  },
+  "toolchain": "riscv64-unknown-elf-gcc (14.2.0+19) 14.2.0",
+  "compiler_flags": "-march=rv32i_zba_zbb_zmmul -mabi=ilp32 -mrelax -msmall-data-limit=0 -O3 -flto -finline-limit=1000 -ffreestanding -fno-builtin -fno-pic -fno-pie -fno-stack-protector -ffunction-sections -fdata-sections -fno-asynchronous-unwind-tables -Wall -Wextra -Werror -Wno-error=maybe-uninitialized -I. -Icoremark/",
+  "source_sha256": {
+    "start.S": "914123d82f5c1d3b014e56e6f681302b2f0fd544592bc048c5a7f4f5b85ddf0f",
+    "linker.ld": "d8e06ba32bd59f14277bc81939df8d3a17060087d6f1bba0df06c013530c8126",
+    "Makefile": "dab208556f7d36de1c9747adbbb864036e2b595fedc50f313aa70ec24c092992",
+    "verify_firmware.py": "f9b8f097d18968bc05f7a24e631e04577b25f5b833b8deac563cbeca6760ae86",
+    "coremark/core_main.c": "bafcc71c2cca06d7e15ac27e58e17f7f0bcb3c8c92404d9fa7039020de46091f",
+    "coremark/core_list_join.c": "e6c82700c2e422dc23962bf838f7d1cd3558fe825095fe832beb63f2f8412b14",
+    "coremark/core_matrix.c": "7b8c44ee71d3a1a66dbf15d711861762852a45d6ec0c3c8aca6b780742ce3507",
+    "coremark/core_state.c": "74d5dfcdc2a2f4a9af5b1d6d0240d60522a24dbc55df20320e30d6d33ee79501",
+    "coremark/core_util.c": "3c73f46d7ddc066f92a811aad511808395549f8d67d626612064ebc1b2477290",
+    "coremark/core_portme.c": "0472a39fd8cfcd25bb984d9a6b7a33a27948f00f0082a3264b8ba9501f182b8f",
+    "coremark/ee_printf.c": "9e8c33a31ca1a0e82c4afe1fc328e8e2dc40231d1f5c2a170c7266eb7c87d52c",
+    "coremark/softmath.c": "1ecfcde2fdc7ab5b6f59398d294377b12dda65598ee54e95b66e31717457da02",
+    "coremark/core_portme.h": "a854e904b3e410d1fcca1188916f7fa00f725f00656e78bea39eec286c4cbe2d",
+    "coremark/coremark.h": "2da505dae03d07a259509a3b6dfde873cf5d64b120acba93236346f94eab0a9b",
+    "coremark/board_coremark_config.h": "20098b1e27ca03b1fa59552cf682cd6cd41b60196342d8d69c41d19e23f450f0",
+    "perf.h": "498efeeb40723c955e3eb9839c8564575d1f63c43dcbd29aac0f683b83c652fb"
+  },
+  "artifact_sha256": {
+    "firmware.elf": "37853fc4411bd27bd887becc39d49468ad71f4d065aa0bf58d12d9432b207efa",
+    "firmware.bin": "f3bb0e2b5d211dcaa18f517f61dfae5f366fdd7278b1496565a1822a9043b14d",
+    "firmware.hex": "d4c4f7e8470a429e71cce9a9e9f3a2ebdee76b13b3e9d96d13bcdb2f4aedab4f"
+  },
+  "clock_hz": 25000000
+}

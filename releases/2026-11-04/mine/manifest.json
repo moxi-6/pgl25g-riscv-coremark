@@ -1,0 +1,57 @@
+{
+  "date": "2026-11-04",
+  "target": "mine",
+  "application": "mine",
+  "top": "atk_l50_mine",
+  "device": "PGL25G",
+  "package": "MBG324",
+  "speed_grade": "-6",
+  "configuration": "SRAM",
+  "flash_written": false,
+  "programming_evidence": "docs/evidence/2026-11-04/mine/program_result.json",
+  "runtime_evidence": "docs/evidence/2026-11-04/mine/capture.txt",
+  "implementation_evidence": "docs/evidence/2026-11-04/mine/implementation_checks.json",
+  "bitstream_sha256": "3ba1897f9f0cc094daf09e28bd918bb781e4c6b70fede2801880c1308ad36f86",
+  "files": [
+    {
+      "file": "atk_l50_mine.sbit",
+      "bytes": 1007712,
+      "sha256": "3ba1897f9f0cc094daf09e28bd918bb781e4c6b70fede2801880c1308ad36f86"
+    },
+    {
+      "file": "atk_l50_mine.smsk",
+      "bytes": 1007712,
+      "sha256": "d7e8d0745038929ca27eee645f8cc3346ec50d73d4633db0dd95ebadc8ff0eb1"
+    },
+    {
+      "file": "firmware.hex",
+      "bytes": 12970,
+      "sha256": "ffb6da9163885dd4c7579445e21c7e79ad7a83d47de0c8583697bae1b9fcec8b"
+    },
+    {
+      "file": "build_flags.txt",
+      "bytes": 224,
+      "sha256": "e5952e08b54572ee887e7de6af33f91526b4965cea78043af3f8ac00df43d759"
+    },
+    {
+      "file": "firmware_manifest.json",
+      "bytes": 2077,
+      "sha256": "3a6d8fe5380644aeda7f0180e050071d2c9bade65af3764e61f590800f538f20"
+    },
+    {
+      "file": "mine_font.hex",
+      "bytes": 12288,
+      "sha256": "2423b10dda05ff354bf5db86adea8c501a7974566ffcd24db31c0b1001c0c7a1"
+    },
+    {
+      "file": "mine_font_map.json",
+      "bytes": 2322,
+      "sha256": "d6b9fc9d750dcb9dc05a976b47769d1ac4231b7c57fd2acd8d4c39386e377a24"
+    }
+  ],
+  "rebuild": {
+    "firmware": "scripts/build_firmware.ps1 -App mine -Isa rv32i -RamBytes 16384 -Rebuild",
+    "bitstream": "scripts/run_pds.ps1 -Target mine -FirmwareApp mine -ConstraintProfile Vcc33 -Stage Bitstream -WorkRoot <ascii-build-directory>",
+    "identity": "Firmware source hashes identify the build inputs. Placement and bitstream generation may vary between PDS runs."
+  }
+}

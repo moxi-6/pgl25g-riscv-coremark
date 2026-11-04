@@ -1,0 +1,39 @@
+{
+  "mapped_resources": {
+    "LUT": 5338,
+    "FF": 4109,
+    "DRM": 42
+  },
+  "timing_checked": true,
+  "active_clocks": [
+    "sys_clk"
+  ],
+  "clock_details": [
+    {
+      "name": "sys_clk",
+      "period_ns": 20.0,
+      "clock_loads": 4139
+    },
+    {
+      "name": "lcd_pixel",
+      "period_ns": 40.0,
+      "clock_loads": 0
+    }
+  ],
+  "constrained_endpoints": {
+    "Setup_Slow_endpoints": 13520,
+    "Setup_Fast_endpoints": 13520,
+    "Hold_Slow_endpoints": 13520,
+    "Hold_Fast_endpoints": 13520
+  },
+  "original_report_sha256": {
+    "map_log_sha256": "C7CD25DC42D4182B0F8F13F7E1F67AAA03A190DEAD330F64D84AE1CB066B4D9A",
+    "timing_report_sha256": "DD1F7E93F92A2715746B42A8AD935BBEA2BEE1FFAFAF476F0427B90AE133A420",
+    "timing_log_sha256": "FB4BA1A6A01841F0EFD5EBCC783709A1A9C39162C9FDA7836551841C0806F2AD"
+  },
+  "public_report_sha256": {
+    "timing.rtr": "6c48a6a4408ac905d85089766c7540b7d0b16f6474ce26172a34db8d8ec4ec8a",
+    "device_map.txt": "16ddf689e5be68d4d7883a2f1fca047df1f11aba94d36772450ef93dcabf360c",
+    "timing_tool.txt": "bb67e5fe7594b020499578312f0a2538615b61c95a21dce1223492884a1e2a58"
+  }
+}

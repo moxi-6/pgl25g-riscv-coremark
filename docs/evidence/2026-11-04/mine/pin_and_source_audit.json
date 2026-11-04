@@ -1,0 +1,60 @@
+{
+  "passed": true,
+  "lcd_pins_checked": 30,
+  "all_ports_unique": 45,
+  "touch_pins_checked": {
+    "tp_int": {
+      "LOC": "L5",
+      "VCCIO": "3.3",
+      "IOSTANDARD": "LVCMOS33",
+      "NONE": "TRUE"
+    },
+    "tp_sda": {
+      "LOC": "K3",
+      "VCCIO": "3.3",
+      "IOSTANDARD": "LVCMOS33",
+      "DRIVE": "4",
+      "SLEW": "SLOW",
+      "NONE": "TRUE"
+    },
+    "tp_rst": {
+      "LOC": "L7",
+      "VCCIO": "3.3",
+      "IOSTANDARD": "LVCMOS33",
+      "DRIVE": "4",
+      "SLEW": "SLOW",
+      "NONE": "TRUE"
+    },
+    "tp_scl": {
+      "LOC": "L4",
+      "VCCIO": "3.3",
+      "IOSTANDARD": "LVCMOS33",
+      "DRIVE": "4",
+      "SLEW": "SLOW",
+      "NONE": "TRUE"
+    }
+  },
+  "touch_pin_scope": "Configured guide-derived pin map; no physical touch verification",
+  "source_sha256": {
+    "rtl/core/rv32i_pkg.sv": "76282e0563a5f2ccd6428d0f3352bdbe3dfc1938b27dc6ee37c475910f9e3611",
+    "rtl/core/rv32i_alu.sv": "2036d239f6f5f0edc9a0e9cbd3ff6b7ab007f3362d1a53f34dd89ecdeab1384c",
+    "rtl/core/rv32i_imm_gen.sv": "be8b8f58ea29e0466b9eff8a08aca8633ec97f90b1ed4be557a57c43d8565e99",
+    "rtl/core/rv32i_regfile.sv": "6496c7e60bfb2c41b84f5ff544f922280f4259e50bcb0312286d262fb7d705ae",
+    "rtl/core/rv32i_decoder.sv": "eed578f34dd431d61ba16b18b33e382d749ca0d68e5702b5d2a42742bad8ce54",
+    "rtl/core/rv32i_core_3stage.sv": "193d52b0c15230eb6a3c48b368f618e4c51be24063567984145a45ebdc3ff1e0",
+    "rtl/periph/uart_tx.sv": "a5d89abde7bc5de09647217f9999afd8cf805aeca2cf18ddd15c0cb1cdf89be1",
+    "rtl/soc/sync_imem.sv": "97fff4a8bc0cca66731536a9d750e34bb8a7cf245e46ec9a3f34b07dbc41511c",
+    "rtl/soc/sync_dmem.sv": "1585c970ed65039efe9f3e94932f958ce591c8e8ab72e61793e452fafc1230e5",
+    "rtl/periph/i2c_master.sv": "17c14af1014199c0b8cb1231efa82b97a85a40bb7953bbc1474db485b496813d",
+    "rtl/periph/gt9147_touch.sv": "6e7d81cfaee58563b9d05089538237a49650cae07ee80c0a4eed678f8ef9a352",
+    "rtl/soc/rv32i_soc.sv": "3ac5aabbbde5cf2376c1f3fce0e5a6a394cff1bde73507dec0f8263b7ae2b0cb",
+    "rtl/top/reset_sync.sv": "9e369cafbeac0a163e6df58d1ae9a6f512a3c034fb37c24a156457fad1f8c14a",
+    "rtl/periph/lcd_800x480.sv": "b683f6fc7b5819a1ebaeb39c8afe8a3a7764bcb8e8ad3607a8238682a6b888f4",
+    "rtl/periph/lcd_mine_display.sv": "4c2987b581522baafe8b3decfd9919e904bf9af2dd8da5a5973bcb673a00c661",
+    "rtl/top/atk_l50_mine.sv": "512dd70ca39bf6ccab1156ae84191ab8e17e93ecf1ada616b96423a753b4cd94"
+  },
+  "constraint_sha256": "1c670d2c5e29a1ef7bc5b0b29536658861763fef1ca7fb339c3e71eb1c331f3f",
+  "panel": "ATK-MD0700R, 800x480 (user photograph)",
+  "target": "mine",
+  "scope": "Automated pin, voltage-configuration, source and artifact identity checks."
+}

@@ -46,7 +46,7 @@ constraint_hash = hashlib.sha256((root / f"constraints/atk_l50_{target}.fdc").re
 assert constraint_hash == inputs["constraint_sha256"].lower()
 # Match packaged RTL against live files and reconstruct the compilation unit.
 package = root / f"build/atk_l50_{target}"
-sources = (root / f"boards/atk_l50/{target}.f").read_text().splitlines()
+sources = (root / f"boards/atk_l50/{target}.f").read_text(encoding='utf-8-sig').splitlines()
 if target in ('lcd_game', 'shooter', 'mine'):
     assert hashlib.sha256((release / 'pds_design.sv').read_bytes()).hexdigest() == inputs['combined_source_sha256'].lower()
     assert hashlib.sha256((release / 'firmware.hex').read_bytes()).hexdigest() == inputs['firmware_hex_sha256'].lower()
@@ -78,10 +78,10 @@ summary = {
     "touch_pin_scope": 'Configured guide-derived pin map; no physical touch verification' if target == 'mine' else None,
     "source_sha256": source_hashes,
     "constraint_sha256": constraint_hash,
-    "panel": "ATK-MD0700R, 800x480 (user photograph)",
+    "panel": "ATK-MD0700R, 800x480",
     "target": target,
     "physical_display_verified": target == 'lcd',
-    "physical_display_evidence": "User confirmed normal image and moving green square on 2026-11-03" if target == 'lcd' else "Pending user confirmation",
+    "physical_display_evidence": "2026-11-03 operator acceptance: normal test pattern and moving square" if target == 'lcd' else "This file audit does not establish physical display acceptance",
 }
 out = root / f"build/{target}_audit.json"
 out.write_text(json.dumps(summary, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

@@ -1,0 +1,23 @@
+{
+  "target": "cpu",
+  "firmware_app": "coremark",
+  "release_directory": "<project>/build/board_release/cpu/coremark",
+  "device": "PGL25G",
+  "jtag_id": "0x00511899",
+  "completed_at": "2026-11-04T16:49:46.0827999+08:00",
+  "configuration_method": "Shutdown",
+  "jtag_frequency": "1Mhz",
+  "status_reads_skipped": false,
+  "bitstream_sha256": "49740590A9E7192592EEC30B49BE8EDAFEDC71640A731F8FB60A4AB0A01C3A47",
+  "programmed_sram": true,
+  "readback_verified": true,
+  "flash_written": false,
+  "final_status": 2096288,
+  "user_mode_signals_ready": true,
+  "gouten_asserted": true,
+  "done_asserted": true,
+  "io_likely_active": true,
+  "raw_status_register": 2096288,
+  "status_sources_agree": true,
+  "runtime_observed": false
+}

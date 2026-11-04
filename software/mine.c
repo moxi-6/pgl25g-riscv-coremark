@@ -30,6 +30,7 @@
 #define TP_STAT  MMIO(0x1000005Cu)
 #define TP_EVT   MMIO(0x10000060u)
 #define TILES    ((volatile uint32_t *)0x100000A0u)
+#define MINE_COMMIT MMIO(0x100000E0u)
 
 #define N         9
 #define NCELLS    (N * N)
@@ -295,6 +296,8 @@ static uint8_t tile_code(int k)
 static void render(void)
 {
     int w, b;
+    /* The previous complete snapshot is consumed at the next video frame. */
+    while (MINE_COMMIT & 1u) { }
     for (w = 0; w < 11; w++) {
         uint32_t word = 0;
         for (b = 0; b < 8; b++) {
@@ -313,6 +316,7 @@ static void render(void)
     TILES[14] = (uint32_t)((level - 1) & 3) | ((uint32_t)flag_mode << 8) |
                 ((uint32_t)placed << 9) | ((uint32_t)game_over << 10) | ((uint32_t)game_won << 11);
     TILES[15] = (uint32_t)opened_count | ((uint32_t)active_count << 8) | (MAX_LEVEL << 16);
+    MINE_COMMIT = 1u;
     /* Remaining safe cells on the LEDs, inverted so a dim board means done. */
     LED = (uint32_t)(~(unsigned)(active_count - mine_total - opened_count)) & 0xFFu;
 }

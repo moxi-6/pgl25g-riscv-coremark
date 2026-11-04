@@ -1,0 +1,23 @@
+{
+  "target": "mine",
+  "firmware_app": "mine",
+  "release_directory": "<project>/build/board_release/mine/mine",
+  "device": "PGL25G",
+  "jtag_id": "0x00511899",
+  "completed_at": "2026-11-04T17:01:49.5812192+08:00",
+  "configuration_method": "Shutdown",
+  "jtag_frequency": "1Mhz",
+  "status_reads_skipped": false,
+  "bitstream_sha256": "3BA1897F9F0CC094DAF09E28BD918BB781E4C6B70FEDE2801880C1308AD36F86",
+  "programmed_sram": true,
+  "readback_verified": true,
+  "flash_written": false,
+  "final_status": 2096288,
+  "user_mode_signals_ready": true,
+  "gouten_asserted": true,
+  "done_asserted": true,
+  "io_likely_active": true,
+  "raw_status_register": 2096288,
+  "status_sources_agree": true,
+  "runtime_observed": false
+}

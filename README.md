@@ -1,201 +1,82 @@
-# RV32I 三阶段流水处理器 · 紫光同创 FPGA 平台
+# RISC-V 处理器与触屏扫雷系统
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![CoreMark 23.78 @50MHz](https://img.shields.io/badge/CoreMark-23.78%20%4050MHz-brightgreen.svg)](#)
-[![RTL: SystemVerilog](https://img.shields.io/badge/RTL-SystemVerilog-8a2be2.svg)](#系统架构)
+面向 2026 全国大学生嵌入式芯片与系统设计竞赛 FPGA 创新设计赛道，采用 SystemVerilog 实现可配置 RV32I 处理器，并在正点原子 ATK-L50（PGL25G-6/MBG324）完成 CoreMark 测试与中文触屏扫雷演示。
 
-> 2026 全国大学生嵌入式芯片与系统设计竞赛 — FPGA 创新设计赛道 · 紫光同创选题一
-> 开发板：正点原子 ATK-L50（紫光同创 **PGL25G**-6 / MBG324，实器件 JTAG ID `0x00511899`）
+**实板 CoreMark：125.57618，CoreMark/MHz：5.023047。** 测试运行 2000 次迭代，持续 15.92658788 秒，性能种子与三个算法 CRC 全部通过。触屏扫雷支持 8 个关卡、变化地图及递增难度，已完成 SRAM 下载回读、串口启动和实物交互验收。
 
-从零用 SystemVerilog 实现一颗 RV32I 处理器，配上片上同步存储、UART/GPIO/按键、64 位性能计数器、
-RGB LCD 显示控制器与 I²C 触摸驱动，最后在上面跑三个能用手玩的游戏。
+[作品说明书](docs/参赛作品说明书.md) · [性能分析](docs/性能分析报告.md) · [演示操作](docs/演示操作指南.md) · [提交材料清单](docs/提交材料清单.md) · [证据索引](docs/evidence/2026-11-04/results.json)
 
----
+## 实现与验证结果
 
-## 亮点
-
-| 维度 | 结果 |
-|---|---|
-| CPU | RV32I 三阶段流水线（IF / EX / WB），写回前递、load-use 互锁、非法指令与未对齐访问检测 |
-| 可参数化扩展 | 分支预测（BTB，可配 16/64/128 项）、`Zmmul` 硬件乘法、`Zba`/`Zbb` 位操作、**双发射**、多周期乘法 |
-| 实板 CoreMark（50 MHz） | **23.7844**（300 迭代 / CRC `0x5275` 通过），较基线 16.8218 提升 **41.4%** |
-| 仿真最优（R9，未上板） | **5.345 CoreMark/MHz** ≈ 50 MHz 下 267 分（仅仿真 + 时序推算） |
-| 资源占用 | LUT 1 840（8.16%）、FF 1 395（4.12%）、DRM18K 16（26.67%） |
-| 时序 | 20 ns 约束下 setup slack **+2.531 ns**，等效 Fmax ≈ 57 MHz |
-| 仿真回归 | **17 项全部通过**，含指令差分（48 次逐步比对）与真 bug 复现 |
-| 硬件 ILA | 92 路探针 / 512 点深度，抓到 `__mulsi3` 移位相加内循环 |
-
----
-
-## 系统架构
-
-```text
-                 ┌──────────────────────────────────────────┐
-   KEY[3:0] ────▶ │                                          │
-                 │   rv32i_core_3stage                      │
-   UART  ◀─────── │   IF ──▶ EX ──▶ WB                       │
-                 │     │       │                             │
-                 │   sync_imem sync_dmem                    │
-                 │                                          │
-   MMIO  ◀────── │  0x1000_0000  GPIO / LED                 │
-                 │  0x1000_0004  UART                       │
-                 │  0x1000_0008  KEY                        │
-                 │  0x1000_0010  64-bit CYCLES              │
-                 │  0x1000_0018  64-bit INSTRET             │
-                 │  0x1000_0044  FRAME（视频帧计数）          │
-                 │  0x1000_0054  TOUCH_X / Y / STAT / EVT   │
-                 │  0x1000_00A0  MINE 格子总线（16 字）       │
-                 │  0x1000_0100  SPRITE / HUD                │
-                 └───────────┬──────────────────────────────┘
-                             │
-              ┌──────────────┴──────────────┐
-              ▼                             ▼
-      lcd_800x480 (800×480 RGB)      gt9147_touch ── I²C ── i2c_master
-              │                                              │
-              ▼                                              ▼
-        LCD 面板                                   GT9147 触摸（7 寸屏）
-```
-
-**设计原则：CPU 不写像素。** 显示内容由 CPU 通过 MMIO 发布「语义量」（精灵坐标、格子状态、HUD 文本），
-渲染器在硬件里组合生成 RGB。这样即使在 50 MHz、无 Cache 的条件下也能稳定跑满帧。
-
----
-
-## CPU 参数
-
-`rtl/core/rv32i_core_3stage.sv` 顶部暴露全部性能开关，默认取保守配置：
-
-```systemverilog
-parameter logic [31:0] RESET_VECTOR = 32'h0000_0000,
-parameter bit    ASYNC_IMEM      = 1'b0,
-parameter bit    PREDICT_ENABLE  = 1'b1,   // BTB 分支预测
-parameter integer BTB_ENTRIES    = 16,
-parameter bit    PIPELINE_DECODE = 1'b1,
-parameter bit    ZMMUL_ENABLE    = 1'b0,   // MUL/MULH/MULHSU/MULHU
-parameter bit    BITMANIP_ENABLE = 1'b0,   // Zba + Zbb 子集
-parameter bit    DUAL_ISSUE      = 1'b0,   // 双发射
-parameter integer MUL_CYCLES     = 3
-```
-
-`scripts/run_isa_checks.py` 会针对这些开关的组合跑差分回归（`isa_decode0/1`、`isa_decode1_mul2` 等）。
-
----
-
-## 实测数据（可追溯到证据文件）
-
-| 指标 | 数值 | 来源 |
+| 项目 | CoreMark 性能配置 | 触屏扫雷配置 |
 |---|---|---|
-| CoreMark @50 MHz 基线 | 16.8218（0.3364 /MHz） | `build/uart_capture/coremark_board_20261101_01/` |
-| CoreMark @50 MHz 取指重叠后 | **23.7844** | `build/board_release/cpu/coremark/` |
-| CPI（仿真基线） | 3.4544（3 136 219 周期 / 907 896 提交） | `sim/tb_coremark.sv` |
-| CPI（R9 仿真） | **0.734**（187 076 周期 / 254 839 提交） | `build/cpu_optimization_20261104/r9_dual_isa/` |
+| CPU | RV32I + Zmmul + Zba/Zbb，双发射 | RV32I，单发射 |
+| 工作时钟 | 25 MHz，50 MHz 输入实际二分频 | 50 MHz |
+| 存储器 | 64 KiB 指令 ROM、8 KiB 数据 RAM | 64 KiB 指令 ROM、16 KiB 数据 RAM |
+| 关键参数 | BTB16、两拍乘法、快速数据 RAM | 同步存储、GT9147 触摸、RGB LCD |
+| LUT / FF / DRM | 11864 / 2783 / 32 | 5338 / 4109 / 42 |
+| 布线后 setup WNS | +2.932 ns | +1.015 ns |
+| 实板结果 | 125.57618 CoreMark，5.023047/MHz | 中文界面、触摸与按键操作正常 |
 
-> R9 的双发射、`Zmmul`、BTB128 组合目前只完成**仿真与部分 PDS 流程**，
-> 位流尚未验收、没有对应的实板分数。上表已区分「实板」与「仿真」。
+两套配置使用同一处理器与 SoC 源码，分别构建性能镜像和应用镜像。时序、资源及实测分数分别绑定对应镜像，不能跨配置混用。[性能原始报告](docs/evidence/2026-11-04/coremark/capture.txt)、[评分结果](docs/evidence/2026-11-04/coremark/score.json)、[应用验收](docs/evidence/2026-11-04/mine/operator_acceptance.json)及[发布文件](releases/2026-11-04/)均提供校验信息。
 
----
+## 系统结构
 
-## 三个应用
-
-| 应用 | 说明 | 状态 |
-|---|---|---|
-| **中文横版射击** | 640×480 游戏区 + 右侧中文 HUD，移动/跳跃/射击/敌人巡逻/碰撞/多关卡 | ✅ 已上板 |
-| **反应力小游戏** | 10 轮随机点灯 + 按键反应计时 + 串口成绩 | ✅ 已上板 |
-| **触屏扫雷** | 9×9 / 5 关 / 洪水填充 / I²C 触摸，硬件渲染格子与数字 | 🟡 代码完成，待整机仿真与位流 |
-
----
-
-## 目录结构
-
-```text
-fpga_riscv_starter/
-├── rtl/
-│   ├── core/        RV32I 数据通路、ALU、译码、寄存器堆、三阶段核
-│   ├── periph/      UART、RGB LCD 控制器、I²C 主机、GT9147 触摸、各游戏渲染器
-│   ├── soc/         同步 IMEM/DMEM、MMIO 译码、SoC 顶层
-│   └── top/         板级顶层（射击 / 扫雷 / 自检 / 探针等多种）
-├── sim/             17 个自检 testbench（含 GT9147 行为模型）
-├── software/        启动代码、链接脚本、C 应用、CoreMark 移植（含软浮点除法）
-├── constraints/     PDS 引脚与时序约束（.fdc）
-├── boards/          各目标综合文件列表（.f）
-├── scripts/         固件构建、仿真、综合、下载、串口捕获、评分等 PowerShell/Python 入口
-├── docs/            设计与验收文档（中文）
-└── build/           构建产物（git 忽略）
+```mermaid
+flowchart LR
+    ROM[片上指令 ROM] --> CPU[RV32I 流水处理器]
+    CPU <--> RAM[片上数据 RAM]
+    CPU <--> MMIO[MMIO 总线]
+    MMIO --> UART[UART / GPIO]
+    KEY[板载按键] --> MMIO
+    TP[GT9147 触摸屏] <--> I2C[I²C 控制器]
+    I2C <--> MMIO
+    MMIO --> STAGE[棋盘状态与帧边界提交]
+    STAGE --> DRAW[中文字符与棋盘硬件绘制]
+    DRAW --> LCD[800×480 RGB LCD]
 ```
 
----
+处理器采用连续取指、数据前递和动态分支预测；性能配置增加标准乘法与位操作扩展、相邻指令双发射。扫雷规则、布雷和交互状态由 CPU 执行，FPGA 根据棋盘状态生成像素，在帧边界提交完整画面。
 
-## 快速开始
+## 应用预览
 
-### 1. 仿真（无需开发板）
+![中文触屏扫雷界面](docs/evidence/2026-11-04/mine/simulation_initial.png)
 
-```powershell
-# Icarus Verilog 回归
-./scripts/run_iverilog.ps1
-```
+图像由实际 LCD 渲染 RTL 逐像素生成。实物显示和操作验收记录见[应用证据目录](docs/evidence/2026-11-04/mine/)。
 
-期望结尾输出 `All 17 simulations passed.`
+- 9×9 棋盘，8 关雷数依次为 10、12、14、16、18、20、22、24。
+- 四种障碍地形轮换；首次开启格及相邻区域无雷。
+- 支持触屏开格、模式切换插旗、按键移动、短按开格和长按插旗。
+- 失败显示地雷与错旗；完成关卡后进入下一关，第 8 关后循环。
 
-### 2. 构建固件
+## 目录与复现
 
-需要 RISC-V 裸机工具链（`riscv64-unknown-elf-gcc`）：
-
-```powershell
-./scripts/build_firmware.ps1 -App shooter    # 或 mine / game / coremark / perf_report / all
-```
-
-### 3. 综合与位流
-
-需要 Pango Design Suite 2022.2-SP4.2：
-
-```powershell
-./scripts/run_pds.ps1 -Target shooter -Stage Bitstream -ConstraintProfile Vcc33 -FirmwareApp shooter
-```
-
-> ⚠️ LCD 相关目标必须用 `-ConstraintProfile Vcc33`（Bank3 / J28 已确认为 3.3 V）。
-
-### 4. 下载与验证
-
-```powershell
-./scripts/program_sram.ps1 -Target shooter -FirmwareApp shooter
-./scripts/capture_uart.ps1 -Port COM8 -TimeoutSeconds 90
-```
-
----
-
-## 文档索引
-
-| 文档 | 内容 |
+| 路径 | 内容 |
 |---|---|
-| [参赛作品说明书](docs/参赛作品说明书.md) | 赛题对应、结构、实测证据总表 |
-| [提交材料清单](docs/提交材料清单.md) | 评分维度 → 证据索引、缺口分析 |
-| [制作进度](docs/制作进度.md) | 完整开发时间线 |
-| [CPU 跑分优化方向](docs/2026-11-04_CPU跑分优化方向.md) | 热点分析与优化路线 |
-| [Zmmul 推进记录](docs/2026-11-04_Zmmul推进记录.md) | R6–R9 实验与差分验证 |
-| [CoreMark 移植与跑分](docs/CoreMark移植与跑分.md) | 移植细节与评分规则 |
-| [实板验证记录](docs/实板验证记录.md) | 逐次上板结果 |
-| [扫雷交接文档](docs/扫雷交接文档.md) | 触屏扫雷的完整设计说明（MMIO、渲染器、固件、上板步骤） |
-| [项目总交接](docs/项目总交接.md) | 扫雷 + CPU 两条线的总体状态与待办 |
-| [开发日志](docs/开发日志.md) | 按日期的进展流水 |
+| [rtl](rtl/) | CPU、SoC、时钟复位、UART、I²C、触摸与 LCD |
+| [software](software/) | 裸机启动、CoreMark 移植、扫雷固件 |
+| [sim](sim/) | 指令、总线、板级时钟与扫雷仿真 |
+| [scripts](scripts/) | 构建、验证、评分及下载工具 |
+| [constraints](constraints/) / [boards](boards/) | PGL25G 引脚、时序与 PDS 工程配置 |
+| [releases/2026-11-04](releases/2026-11-04/) | 两套实板镜像、固件和 SHA256 清单 |
+| [docs/evidence/2026-11-04](docs/evidence/2026-11-04/) | 原始串口、下载记录、资源时序与仿真证据 |
 
----
+环境：Python、PowerShell、Icarus Verilog；固件构建使用 WSL Ubuntu 中的 RISC-V GCC 14.2.0；硬件实现使用 Pango Design Suite 2022.2-SP4.2。
 
-## 边界声明
+```powershell
+# 指令与应用验证
+python scripts/run_isa_checks.py --zmmul --bitmanip --dual --mul-cycles 2 --decode-pipeline 0
+python scripts/run_board_clock_checks.py
+python scripts/run_mine_checks.py
 
-本作品在以下方面**不做超出实现范围的宣称**：
+# 按实际频率复核已归档的板测分数
+python scripts/coremark_score.py --capture docs/evidence/2026-11-04/coremark/capture.txt --clock-hz 25000000 --lut-count 11864 --evidence-kind BoardCapture --output-dir build/score_recheck
+```
 
-- 不宣称完整特权架构：无 CSR、无中断/异常恢复，`ECALL` 进入 trap 停机。
-- CoreMark 的乘除法在基线配置下由软件例程完成，不依赖 M 扩展；`Zmmul` 为可选参数。
-- 「最高频率」给出的是 PDS 时序报告推算值，不是实测运行频率。
-- ILA 为单次 512 点触发采样，用于展示关键内循环，不是完整指令追踪。
-- 实板验证全部通过 SRAM 下载完成，**没有做 Flash 冷启动**。
-- 板卡为非推荐的 PGL25G（22 560 LUT），低于赛方答疑所述推荐区间，评审时可出示资源与时序证明。
+完整构建与实物演示步骤见[演示操作指南](docs/演示操作指南.md)。
 
-未使用任何硬核 ARM / NPU 或第三方 IP 核：CPU、总线、外设、ILA 触发逻辑均为自研 RTL。
+## 实现范围
 
----
+支持 RV32I 基础整数执行及可配置 Zmmul、Zba、Zbb；非法指令、未对齐访问等进入停机状态。未提供完整特权 CSR、可恢复异常/中断、指令/数据 Cache 或 AI 加速单元。已有硬件 ILA 记录用于早期 CPU 基线分析，双发射版本的流水分析另见功能仿真与周期统计。
 
-## 许可
-
-本工程原创代码采用 MIT 许可。
-`software/coremark/` 为 EEMBC CoreMark 移植，遵循其原始许可，见 [LICENSE.md](software/coremark/LICENSE.md)。
+原创代码采用 [MIT License](LICENSE)；CoreMark 适用其[单独许可](software/coremark/LICENSE.md)。

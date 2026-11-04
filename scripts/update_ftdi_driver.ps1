@@ -1,7 +1,9 @@
 ﻿# Run elevated. Install only the FTDI update identified by the read-only audit.
 $ErrorActionPreference = 'Stop'
 $ProjectRoot = Split-Path -Parent $PSScriptRoot
-$LogPath = Join-Path (Split-Path -Parent $ProjectRoot) '交接记录/2026-10-19_FTDI驱动更新.log'
+$LogDir = Join-Path $ProjectRoot 'build/driver_update'
+New-Item -ItemType Directory -Path $LogDir -Force | Out-Null
+$LogPath = Join-Path $LogDir ('ftdi_{0}.log' -f (Get-Date -Format 'yyyyMMdd_HHmmss'))
 Start-Transcript -Path $LogPath -Force
 try {
     $Identity = [Security.Principal.WindowsIdentity]::GetCurrent()

@@ -1,0 +1,43 @@
+{
+  "app": "mine.c",
+  "isa": "rv32i",
+  "abi": "ilp32",
+  "entry": 0,
+  "rom_bytes": 5760,
+  "text_instructions": 1382,
+  "ram_bytes": 16384,
+  "ram_base": 1073741824,
+  "stack_reserved_bytes": 1024,
+  "ram_free_before_stack_bytes": 14568,
+  "data_bytes": 232,
+  "bss_bytes": 560,
+  "symbols": {
+    "__data_start": 1073741824,
+    "__data_end": 1073742056,
+    "__data_load_start": 536876440,
+    "__bss_start": 1073742056,
+    "__bss_end": 1073742616,
+    "_stack_top": 1073758208,
+    "_stack_bottom": 1073757184,
+    "__ram_size": 16384
+  },
+  "toolchain": "riscv64-unknown-elf-gcc (14.2.0+19) 14.2.0",
+  "compiler_flags": "-march=rv32i -mabi=ilp32 -mno-relax -msmall-data-limit=0 -O2  -ffreestanding -fno-builtin -fno-pic -fno-pie -fno-stack-protector -ffunction-sections -fdata-sections -fno-asynchronous-unwind-tables -Wall -Wextra -Werror -I.",
+  "source_sha256": {
+    "start.S": "914123d82f5c1d3b014e56e6f681302b2f0fd544592bc048c5a7f4f5b85ddf0f",
+    "linker.ld": "d8e06ba32bd59f14277bc81939df8d3a17060087d6f1bba0df06c013530c8126",
+    "Makefile": "dab208556f7d36de1c9747adbbb864036e2b595fedc50f313aa70ec24c092992",
+    "verify_firmware.py": "f9b8f097d18968bc05f7a24e631e04577b25f5b833b8deac563cbeca6760ae86",
+    "mine.c": "1b1452d4f796ed3e1cc7f7ec75ea71f992f6388969222a968feea53a57cdf484",
+    "coremark/softmath.c": "1ecfcde2fdc7ab5b6f59398d294377b12dda65598ee54e95b66e31717457da02",
+    "perf.h": "498efeeb40723c955e3eb9839c8564575d1f63c43dcbd29aac0f683b83c652fb",
+    "coremark/board_coremark_config.h": "20098b1e27ca03b1fa59552cf682cd6cd41b60196342d8d69c41d19e23f450f0",
+    "coremark/core_portme.h": "a854e904b3e410d1fcca1188916f7fa00f725f00656e78bea39eec286c4cbe2d",
+    "coremark/coremark.h": "2da505dae03d07a259509a3b6dfde873cf5d64b120acba93236346f94eab0a9b"
+  },
+  "artifact_sha256": {
+    "firmware.elf": "fda1410bf8d92f523a39ed2ec6a820c39b5c0c199acba3f5b072c53a0912c5c2",
+    "firmware.bin": "1a0ec48a6939aacdc43be88522864e8b2aec65f90ec51eaa2e92e16538034137",
+    "firmware.hex": "ffb6da9163885dd4c7579445e21c7e79ad7a83d47de0c8583697bae1b9fcec8b"
+  }
+}

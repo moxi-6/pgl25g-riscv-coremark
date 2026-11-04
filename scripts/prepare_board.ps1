@@ -41,9 +41,9 @@ $FirmwareStage = 'software/build'
 # Read the source list through .NET so entries stay plain strings even when the
 # shell hands out provider-wrapped objects for file cmdlets.
 $Sources = @([IO.File]::ReadAllLines((Join-Path $BoardDir "$Target.f")) | Where-Object { $_.Trim() -and -not $_.StartsWith('#') })
-$Files = @($Sources) + @('constraints/atk_l50_reference.fdc', 'boards/atk_l50/README.md', 'docs/同步存储接口.md', 'docs/性能计数与基准测试.md')
-if ($Target -in @('lcd','lcd_game','shooter','mine')) { $Files += @('constraints/atk_l50_lcd.fdc', 'docs/2026-11-03_RGB_LCD.md'); if ($Target -eq 'lcd_game') { $Files += 'constraints/atk_l50_lcd_game.fdc' } }
-if ($Target -eq 'shooter') { $Files += @('constraints/atk_l50_shooter.fdc','rtl/periph/shooter_font.hex','rtl/periph/shooter_font_map.json','rtl/periph/lcd_shooter_display.sv.in','scripts/generate_shooter_font.py','docs/2026-11-03_中文横版射击.md') }
+$Files = @($Sources) + @('constraints/atk_l50_reference.fdc', 'boards/atk_l50/README.md')
+if ($Target -in @('lcd','lcd_game','shooter','mine')) { $Files += 'constraints/atk_l50_lcd.fdc'; if ($Target -eq 'lcd_game') { $Files += 'constraints/atk_l50_lcd_game.fdc' } }
+if ($Target -eq 'shooter') { $Files += @('constraints/atk_l50_shooter.fdc','rtl/periph/shooter_font.hex','rtl/periph/shooter_font_map.json','rtl/periph/lcd_shooter_display.sv.in','scripts/generate_shooter_font.py') }
 if ($Target -eq 'mine') {
     $Files += @('constraints/atk_l50_mine.fdc', 'rtl/periph/mine_font.hex', 'rtl/periph/mine_font_map.json')
     if (Test-Path -LiteralPath (Join-Path $ProjectRoot 'scripts/generate_mine_font.py')) { $Files += 'scripts/generate_mine_font.py' }
@@ -210,8 +210,8 @@ $Top = @{bringup='atk_l50_bringup';cpu='atk_l50_top';probe='atk_l50_io_probe';lc
     input_clock_hz = $(if ($Target -eq 'cpu') { $CpuFeatures.INPUT_CLOCK_HZ } else { 50000000 })
     cpu_clock_div = $(if ($Target -eq 'cpu') { $CpuFeatures.CPU_CLOCK_DIV } else { 1 })
     baud = $(if ($Target -eq 'cpu') { $CpuFeatures.BAUD } else { 115200 })
-    device = 'PGL25G / -6 / MBG324 (user and live JTAG confirmed device)'
-    constraint_status = $(if ($Target -in @('lcd','lcd_game','shooter','mine')) { 'LCD fixed pins; user confirmed Bank3/J28=3.3V; interface timing budget provisional' } else { 'REFERENCE ONLY: clock/reset voltage differs between supplied FDC and guide; confirm board revision before bitstream' })
+    device = 'PGL25G / -6 / MBG324 (JTAG ID 0x00511899)'
+    constraint_status = $(if ($Target -in @('lcd','lcd_game','shooter','mine')) { 'LCD fixed pins; Bank3/J28 configured for 3.3V; interface timing budget provisional' } else { 'REFERENCE ONLY: clock/reset voltage differs between supplied FDC and guide; confirm board revision before bitstream' })
     firmware_app = $(if ($Target -in @('cpu','lcd_game','shooter','mine')) { $FirmwareApp } else { $null })
     firmware_dir = $(if ($Target -in @('cpu','lcd_game','shooter','mine')) { $FirmwareDir } else { $null })
     firmware_status = $(if ($Target -in @('cpu','lcd_game','shooter','mine')) { "Verified $AppMain $($Firmware.isa)/ILP32 image; source/artifact hashes checked; ROM data-copy startup" } else { 'Not required' })

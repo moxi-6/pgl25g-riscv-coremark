@@ -99,6 +99,9 @@ module rv32i_soc #(
     wire touch_selected = TOUCH_ENABLE && dmem_addr >= 32'h1000_0054 && dmem_addr < 32'h1000_0064;
     wire mine_selected = MINE_ENABLE && dmem_addr >= 32'h1000_00A0 && dmem_addr < 32'h1000_00E0;
     wire [3:0] mine_idx = (dmem_addr[7:0] - 8'hA0) >> 2;
+    wire mine_commit_selected = MINE_ENABLE && dmem_addr[31:2] == (32'h100000e0 >> 2);
+    logic [511:0] mine_stage_q;
+    logic mine_pending_q;
     reg [31:0] lcd_stage_q [0:3];
     reg [31:0] lcd_merged;
     integer lcd_byte, lcd_word;
@@ -261,7 +264,9 @@ module rv32i_soc #(
         end else if (video_selected) begin
             dmem_rdata = video_stage_q[dmem_addr[6:2]];
         end else if (mine_selected) begin
-            dmem_rdata = video_mine_o[mine_idx*32 +: 32];
+            dmem_rdata = mine_stage_q[mine_idx*32 +: 32];
+        end else if (mine_commit_selected) begin
+            dmem_rdata = {31'b0,mine_pending_q};
         end else if (VIDEO_ENABLE && dmem_addr[31:2]==30'h04000011) begin
             dmem_rdata = video_frames_q;
         end else if (VIDEO_ENABLE && dmem_addr[31:2]==30'h04000014) begin
@@ -303,19 +308,28 @@ module rv32i_soc #(
     end
 
     // ------------------------------------------------------------------
-    // Minesweeper tile channel: 11 words of packed 4-bit cells (0..80),
-    // then the cursor/flags word. Byte strobes are honoured so the firmware
-    // can update one cell at a time if it wants to.
+    // Publish a complete tile/HUD snapshot only at the next frame boundary.
+    // Software waits for pending=0 before editing staging, then writes E0=1.
     // ------------------------------------------------------------------
     integer mine_byte;
     always_ff @(posedge clk_i or negedge rst_n_i) begin
         if (!rst_n_i) begin
             video_mine_o <= 512'b0;
-        end else if (dmem_valid && dmem_write && dmem_ready && mine_selected) begin
-            for (mine_byte = 0; mine_byte < 4; mine_byte = mine_byte + 1) begin
-                if (dmem_wstrb[mine_byte]) begin
-                    video_mine_o[mine_idx*32 + mine_byte*8 +: 8] <= dmem_wdata[mine_byte*8 +: 8];
+            mine_stage_q <= 512'b0;
+            mine_pending_q <= 1'b0;
+        end else if (MINE_ENABLE) begin
+            if (video_frame_i && mine_pending_q) begin
+                video_mine_o <= mine_stage_q;
+                mine_pending_q <= 1'b0;
+            end
+            if (dmem_valid && dmem_write && dmem_ready) begin
+                if (mine_selected && !mine_pending_q) begin
+                    for (mine_byte = 0; mine_byte < 4; mine_byte = mine_byte + 1) begin
+                        if (dmem_wstrb[mine_byte])
+                            mine_stage_q[mine_idx*32 + mine_byte*8 +: 8] <= dmem_wdata[mine_byte*8 +: 8];
+                    end
                 end
+                if (mine_commit_selected && dmem_wstrb[0] && dmem_wdata[0]) mine_pending_q <= 1'b1;
             end
         end
     end

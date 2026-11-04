@@ -45,14 +45,36 @@ module lcd_mine_display #(
     wire [7:0] safe_left = mine_i[415:408];
     wire [1:0] theme = mine_i[449:448];
     wire flag_mode = mine_i[456], placed = mine_i[457], lost = mine_i[458];
-    wire [9:0] seconds = mine_i[425:416] > 999 ? 10'd999 : mine_i[425:416];
+    wire [9:0] seconds = mine_i[447:416] > 999 ? 10'd999 : mine_i[425:416];
     reg [15:0] font [0:2047];
     reg [15:0] font_row_q;
     reg [6:0] code;
-    integer line, col_text, tx, ty, gx, gy;
+    integer line, col_text, tx, ty, gx, gy, text_line_index;
     reg text_on;
     initial $readmemh(FONT_FILE, font);
     always @(posedge clk_i) font_row_q <= font[{code,gy[3:0]}];
+    function automatic [3:0] decimal_tens(input [9:0] value);
+        begin
+            if(value>=90)decimal_tens=9;else if(value>=80)decimal_tens=8;
+            else if(value>=70)decimal_tens=7;else if(value>=60)decimal_tens=6;
+            else if(value>=50)decimal_tens=5;else if(value>=40)decimal_tens=4;
+            else if(value>=30)decimal_tens=3;else if(value>=20)decimal_tens=2;
+            else if(value>=10)decimal_tens=1;else decimal_tens=0;
+        end
+    endfunction
+    function automatic [3:0] decimal_hundreds(input [9:0] value);
+        begin
+            if(value>=900)decimal_hundreds=9;else if(value>=800)decimal_hundreds=8;
+            else if(value>=700)decimal_hundreds=7;else if(value>=600)decimal_hundreds=6;
+            else if(value>=500)decimal_hundreds=5;else if(value>=400)decimal_hundreds=4;
+            else if(value>=300)decimal_hundreds=3;else if(value>=200)decimal_hundreds=2;
+            else if(value>=100)decimal_hundreds=1;else decimal_hundreds=0;
+        end
+    endfunction
+    wire [3:0] seconds_hundreds=decimal_hundreds(seconds);
+    wire [9:0] seconds_tail=seconds-seconds_hundreds*10'd100;
+    wire [3:0] seconds_tens=decimal_tens(seconds_tail);
+    wire [3:0] seconds_ones=seconds_tail-seconds_tens*10'd10;
     // BEGIN_GENERATED_MINE_FONT
     function automatic [6:0] text_id(input integer line,input integer col);
         begin case(line)
@@ -467,22 +489,26 @@ module lcd_mine_display #(
             rgb_o = won ? 24'h287148 : 24'h34465b;
         text_on=0;code=0;line=0;col_text=0;gx=0;gy=0;tx=0;ty=0;
         if(x_i>=648 && x_i<792 && y_i>=16 && y_i<352) begin
-            tx=x_i-648;ty=y_i-16;line=ty/24;col_text=tx>>4;gx=tx&15;gy=ty%24;
+            tx=x_i-648;ty=y_i-16;col_text=tx>>4;gx=tx&15;
+            for(text_line_index=0;text_line_index<14;text_line_index=text_line_index+1)
+                if(ty>=text_line_index*24 && ty<(text_line_index+1)*24) begin
+                    line=text_line_index;gy=ty-text_line_index*24;
+                end
             text_on=gy<16;
             if(line==2) line=16+theme;
             if(line==7) line=lost ? 21 : (won ? 22 : (placed ? 20 : 7));
             if(line==13 && flag_mode) line=23;
             code=text_id(line,col_text);
             if(line==1 && col_text==3) code=digit_id(level);
-            if(line==3 && col_text==3) code=digit_id(total_mines/10);
-            if(line==3 && col_text==4) code=digit_id(total_mines%10);
-            if(line==4 && col_text==3) code=digit_id(flags/10);
-            if(line==4 && col_text==4) code=digit_id(flags%10);
-            if(line==5 && col_text==3) code=digit_id(safe_left/10);
-            if(line==5 && col_text==4) code=digit_id(safe_left%10);
-            if(line==6 && col_text==2) code=digit_id(seconds/100);
-            if(line==6 && col_text==3) code=digit_id((seconds/10)%10);
-            if(line==6 && col_text==4) code=digit_id(seconds%10);
+            if(line==3 && col_text==3) code=digit_id(decimal_tens(total_mines));
+            if(line==3 && col_text==4) code=digit_id(total_mines-decimal_tens(total_mines)*10);
+            if(line==4 && col_text==3) code=digit_id(decimal_tens(flags));
+            if(line==4 && col_text==4) code=digit_id(flags-decimal_tens(flags)*10);
+            if(line==5 && col_text==3) code=digit_id(decimal_tens(safe_left));
+            if(line==5 && col_text==4) code=digit_id(safe_left-decimal_tens(safe_left)*10);
+            if(line==6 && col_text==2) code=digit_id(seconds_hundreds);
+            if(line==6 && col_text==3) code=digit_id(seconds_tens);
+            if(line==6 && col_text==4) code=digit_id(seconds_ones);
         end else if(x_i>=656 && x_i<784 && ((y_i>=372 && y_i<388)||(y_i>=428 && y_i<444))) begin
             tx=x_i-656;gx=tx&15;gy=y_i&15;col_text=tx>>4;text_on=1;
             if(y_i<400) begin gy=y_i-372;line=flag_mode ? 25 : 24;end

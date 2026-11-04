@@ -30,7 +30,7 @@ $ProjectRoot = Split-Path -Parent $PSScriptRoot
 $ReleaseLeaf = if ($Target -in @('cpu','lcd_game','shooter','mine')) { "$Target/$FirmwareApp" } else { $Target }
 $ReleaseDir = Join-Path $ProjectRoot "build/board_release/$ReleaseLeaf"
 if (-not (Test-Path -LiteralPath (Join-Path $ReleaseDir 'release.json'))) {
-    throw "No release package at $ReleaseLeaf. Build one with: run_pds.ps1 -Target cpu -Stage Bitstream -ConstraintProfile Vcc33 -FirmwareApp $FirmwareApp"
+    throw "No release package at $ReleaseLeaf. Build one with: run_pds.ps1 -Target $Target -Stage Bitstream -ConstraintProfile Vcc33 -FirmwareApp $FirmwareApp"
 }
 $Release = Get-Content -LiteralPath (Join-Path $ReleaseDir 'release.json') -Raw | ConvertFrom-Json
 $Top = @{bringup='atk_l50_bringup';cpu='atk_l50_top';probe='atk_l50_io_probe';vendor='flow_led';internal='atk_l50_io_probe';lcd='atk_l50_lcd';lcd_game='atk_l50_lcd_game';shooter='atk_l50_shooter';mine='atk_l50_mine'}[$Target]
@@ -182,8 +182,7 @@ try {
     } | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $ProjectRoot "build/${Target}_sram_result.json") -Encoding utf8
     if ($DecodedGouten -eq $false) {
         $GoutenMessage = ('GOUTEN is 0: configuration completed but output is disabled. ' +
-            'After the reproduced ISC failure, power-cycle the board and reload using Shutdown. ' +
-            'See docs/2026-11-01_program3输出关闭复现.md.')
+            'Power-cycle the board and reload using Shutdown.')
         if ($ExpectHighZ) {
             Write-Host "[EXPECTED] $GoutenMessage"
         } else {
