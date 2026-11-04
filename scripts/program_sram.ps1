@@ -3,6 +3,8 @@ param(
     [string]$PdsRoot = 'C:\pango\PDS_2022.2-SP4.2-ads',
     [string]$WorkRoot = 'C:\fpga\riscv_l50\sram_program',
     [switch]$VerifyOnly,
+    # Offline package gate only: do not start JTAG or touch any connected device.
+    [switch]$CheckPackageOnly,
     [switch]$SkipVerify,
     [switch]$SkipStatusRead,
     [ValidateSet('Combined','ISC','Shutdown')][string]$ConfigurationMethod = 'Shutdown',
@@ -52,6 +54,29 @@ if ($Target -eq 'vendor') {
     if ($Timing -notmatch 'Device\s*:\s*PGL25G\s' -or $Timing -notmatch 'Design Summary\s*:\s*All Constraints Met\.') {
         throw 'Requires a PGL25G release with passing constrained post-route timing.'
     }
+    if ($Target -in @('cpu','mine')) {
+        $Checks = Get-Content -LiteralPath (Join-Path $ReleaseDir 'implementation_checks.json') -Raw | ConvertFrom-Json
+        foreach ($Resource in @('LUT','FF','DRM')) {
+            if ($Checks.mapped_resources.$Resource -le 0) { throw "Empty implementation resource: $Resource" }
+        }
+        if (-not $Checks.timing_checked -or -not $Checks.active_clocks.Count -or
+            $Timing -notmatch '(?m)^Startpoint\s*:\s*\S+' -or
+            $Timing -notmatch '(?m)^Path Class\s*:\s*sequential timing path') {
+            throw 'Release lacks verified active clocks and real sequential timing paths.'
+        }
+        foreach ($Kind in @('Setup_Slow_endpoints','Setup_Fast_endpoints','Hold_Slow_endpoints','Hold_Fast_endpoints')) {
+            if ($Checks.constrained_endpoints.$Kind -le 0) { throw "Release lacks constrained endpoints: $Kind" }
+        }
+        foreach ($Pair in @(@('device_map.log','map_log_sha256'), @('timing.rtr','timing_report_sha256'), @('timing.log','timing_log_sha256'))) {
+            if ((Get-FileHash -LiteralPath (Join-Path $ReleaseDir $Pair[0])).Hash -ne $Checks.($Pair[1])) {
+                throw "Implementation evidence hash mismatch: $($Pair[0])"
+            }
+        }
+    }
+}
+if ($CheckPackageOnly) {
+    Write-Host "[PASS] $Target release package passed offline checks. No JTAG connection or programming was performed."
+    return
 }
 # Identify the live board again before allowing any SRAM write.
 & (Join-Path $PSScriptRoot 'run_jtag_scan.ps1') -PdsRoot $PdsRoot
